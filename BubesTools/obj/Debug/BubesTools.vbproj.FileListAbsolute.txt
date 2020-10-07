@@ -49,3 +49,27 @@ D:\BubesTools\BubesTools\obj\Debug\BubesTools.pdb
 D:\BubesTools\BubesTools\bin\Debug\BubesTools.pdb
 D:\BubesTools\BubesTools\bin\Debug\BubesTools.xml
 D:\BubesTools\BubesTools\obj\Debug\BubesTools.vbprojResolveAssemblyReference.cache
+D:\Bubes v2\BubesTools\BubesTools\bin\Debug\BubesTools.exe
+D:\Bubes v2\BubesTools\BubesTools\bin\Debug\BubesTools.exe.config
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.frmJurnal.resources
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.frmHistoryDelete.resources
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.frmJurnalAdd.resources
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.frmLaporanJurnaldb.resources
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.frmJurnaldb.resources
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.frmJurnalDetail.resources
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.frmBubesEdit.resources
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.frmMenu.resources
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.frmMstKodeAkun.resources
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.frmMstKodeAkunList.resources
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.frmResetKodeAkun.resources
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.frmResetJurnal.resources
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.Resources.resources
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.XtraForm1.resources
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.vbproj.GenerateResource.Cache
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.exe.licenses
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.exe
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.xml
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.pdb
+D:\Bubes v2\BubesTools\BubesTools\bin\Debug\BubesTools.pdb
+D:\Bubes v2\BubesTools\BubesTools\bin\Debug\BubesTools.xml
+D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.vbprojResolveAssemblyReference.cache

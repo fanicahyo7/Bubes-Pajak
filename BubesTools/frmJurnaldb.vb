@@ -13,11 +13,6 @@ Public Class frmJurnaldb
     Dim ConnStrBB As String = ""
 
     Private Sub frmJurnaldb_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'cThn.Items.Clear()
-        'For i = DateTime.Now.Year - 5 To DateTime.Now.Year
-        '    cThn.Items.Add(i)
-        'Next
-
 
         dBulan.Properties.DisplayFormat.FormatString = "yyyy MMMM"
         dBulan.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom
@@ -28,10 +23,17 @@ Public Class frmJurnaldb
         dBulan.EditValue = Now
 
         cJenis.FirstInit(PubConnStr, "SELECT Jenis, ConnStr FROM mstUnitBukbes", {tJenis}, , , , , , , {"ConnStr"})
+        'cJenis.FirstInit(PubConnStr, "SELECT Jenis, ConnStr FROM mstUnitBukbes", , , , , , , , {"ConnStr"})
 
     End Sub
 
     Private Sub cJenis_EditValueChanged(sender As Object, e As EventArgs) Handles cJenis.EditValueChanged
+        'If cJenis.Text = "UE" Then
+        '    tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUE;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
+        'Else
+        '    tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUM;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
+        'End If
+
         koneksi(tJenis.Text)
         cCompany.FirstInit(tJenis.Text, "Select KodeCompany,Nama from tbGNCompany", {tNama}, , , , , , {0.5, 1})
     End Sub
@@ -49,30 +51,29 @@ Public Class frmJurnaldb
     Sub isigrid()
         Dim data As String = _
         "select a.TanggalBukti,CONVERT(varchar(10),month(a.TanggalBukti)) as Bulan,CONVERT(varchar(10),year(a.TanggalBukti)) as Tahun,b.Nama as NamaLegal," & _
-        "a.KodeAkun,c.Keterangan as NamaAkun," & _
-        "case when d.KodeAkunLama is not null then d.KodeAkun else a.KodeAkun end as KodeAkunPajak," & _
-        "case when d.NamaAkunPajak is not null then d.NamaAkunPajak else c.Keterangan end as NamaAkunPajak," & _
+        "case when New='1' then '' else case when FlagPostingJurnalOri='1' then d.KodeAkunLama else a.KodeAkun end end as KodeAkun," & _
+        "case when New='1' then '' else (select Keterangan from tbACKodeAkun where kodeakun=(case when d.KodeAkunLama is not null then d.KodeAkunLama else a.KodeAkun end)) end as NamaAkun," & _
+        "case when FlagPostingJurnalOri='1' then d.KodeAkun else a.KodeAkun end as KodeAkunPajak," & _
+        "case when d.NamaAkunPajak is not null then d.NamaAkunPajak else (select Keterangan from tbACKodeAkun where kodeakun=(case when d.KodeAkunLama is not null then d.KodeAkun else a.KodeAkun end)) end as NamaAkunPajak," & _
         "a.NoBukti, a.Keterangan, " & _
-        "DebetInternal = case when a.DebetOrKredit = 'D' then a.Jumlah else cast(0 as numeric(18)) end," & _
-        "KreditInternal = case when a.DebetOrKredit = 'K' then a.Jumlah else cast(0 as numeric(18)) end," & _
-        "Internal = case when a.DebetOrKredit = 'K' then a.Jumlah * -1 " & _
-        "when a.DebetOrKredit = 'D' then a.Jumlah end," & _
-        "PenyesuaianDebet = " & _
-            "case when d.DebetOrKredit = 'D' then " & _
-            "	case when d.JumlahLama is null then cast(0 as numeric(18)) else d.Jumlah - d.JumlahLama end " & _
-            "else cast(0 as numeric(18)) " & _
-            "end," & _
-        "PenyesuaianKredit = " & _
-            "case when d.DebetOrKredit = 'K' then " & _
-            "	case when d.JumlahLama is null then cast(0 as numeric(18)) else d.Jumlah - d.JumlahLama end " & _
-            "else cast(0 as numeric(18)) " & _
-            "end, " & _
-        "PenyesuaianKomersial = " & _
-            "case when a.DebetOrKredit = 'D' then " & _
-            "	case when d.JumlahLama is null then cast(0 as numeric(18)) else (d.Jumlah - d.JumlahLama) end " & _
-            "when a.DebetOrKredit ='K' then " & _
-            "	case when d.JumlahLama is null then cast(0 as numeric(18)) else (d.Jumlah - d.JumlahLama) * -1 end " & _
-            "end, " & _
+        "DebetInternal = case when New='1' then cast(0 as numeric(18)) else " & _
+        "case when a.DebetOrKredit = 'D' then case when d.JumlahLama is not null then d.JumlahLama else a.Jumlah End else cast(0 as numeric(18)) end end," & _
+        "KreditInternal = case when New='1' then cast(0 as numeric(18)) else " & _
+        "case when a.DebetOrKredit = 'K' then case when d.JumlahLama is not null then d.JumlahLama else a.Jumlah End else cast(0 as numeric(18)) end end," & _
+        "Internal = case when New='1' then cast(0 as numeric(18)) else case when a.DebetOrKredit = 'K' then " & _
+        "case when d.JumlahLama is not null then d.JumlahLama * -1 else a.Jumlah * -1 End " & _
+        "when a.DebetOrKredit = 'D' then " & _
+        "case when d.JumlahLama is not null then d.JumlahLama else a.Jumlah End end end," & _
+        "PenyesuaianDebet = case when a.DebetOrKredit = 'D' then " & _
+        "case when New='1' then d.Jumlah else " & _
+        "isnull(d.Jumlah,0) - isnull(d.JumlahLama,0) end else cast(0 as numeric(18)) end," & _
+        "PenyesuaianKredit = case when a.DebetOrKredit = 'K' then " & _
+        "case when New='1' then d.Jumlah else " & _
+        "isnull(d.Jumlah,0) - isnull(d.JumlahLama,0) end else cast(0 as numeric(18)) end," & _
+        "PenyesuaianKomersial = case when New='1' then " & _
+        "case when a.DebetOrKredit='D' then d.Jumlah " & _
+        "when a.DebetOrKredit='K' then d.Jumlah * -1 end " & _
+        "else isnull(d.Jumlah,0) - isnull(d.JumlahLama,0) end," & _
         "DebetKomersial = " & _
             "case when a.DebetOrKredit = 'D' then " & _
             "	case when d.JumlahLama is null then a.Jumlah else d.Jumlah end " & _
@@ -92,38 +93,14 @@ Public Class frmJurnaldb
         "'' as Keterangan1 ," & _
         "ROW_NUMBER() over(Partition by a.kodeakun order by a.TanggalBukti) as urut,'TIDAK DIEDIT' as status,a.NoUrutAkun," & _
         "case when d.FlagDelete is null then 0 when d.FlagDelete is not null then d.FlagDelete end as FlagDelete," & _
-        "d.NamaAkunPajak,d.KodeAkunLama,d.JumlahLama " & _
+        "d.NamaAkunPajak,d.KodeAkunLama,d.JumlahLama,d.New,a.DebetOrKredit " & _
         "from tbACJurnal a " & _
         "left join tbGNCompany b on b.KodeCompany = a.KodeCompany " & _
         "left join tbACKodeAkun c on a.KodeAkun = c.KodeAkun " & _
-        "left join tbACJurnalEdit d on a.KodeAkun = d.KodeAkunLama and a.NoBukti=d.NoBukti and a.Jumlah = d.JumlahLama and a.NoUrutAkun =d.NoUrutAkun " & _
+        "left join tbACJurnalEdit d on a.KodeAkunLama = d.KodeAkunLama and a.NoBukti=d.NoBukti and a.JumlahLama = d.JumlahLama and a.NoUrutAkun =d.NoUrutAkun and a.KodeCompany=d.KodeCompany " & _
         "where substring(a.KodeAkun,1,2)='" & cCompany.Text & "' and month(a.TanggalBukti)='" & Format(dBulan.EditValue, "MM") & "' and year(a.TanggalBukti)='" & Format(dBulan.EditValue, "yyyy") & "'" & _
         "and (d.FlagDelete = 0 or d.FlagDelete is null) " & _
         "order by KodeAkun,TanggalBukti"
-
-        'da = New SqlDataAdapter(data, kon)
-        'Dim ds As New DataSet
-        'da.Fill(ds)
-
-        'Dim dn As New cMeDB(tJenis.Text)
-        'dn.FillMe(ds.Tables(0))
-        'dgJurnal.DataSource = dn
-        'dgJurnal.gcMain.DataSource = dn
-        'dgJurnal.colWidth = {0.9, 0.4, 0.5, 1.5, _
-        '                     1, 1.5, _
-        '                     1.3, _
-        '                     1.8, _
-        '                     1.3, 1.8, _
-        '                    1, 1, 1, _
-        '                     1, 1, 1, _
-        '                     1, 1, 1, _
-        '                     1, 0.5, 0.5}
-        'dgJurnal.ColHeaderHeight = 50
-        'dgJurnal.colFitGrid = False
-        'dgJurnal.colSum = {"DebetInternal", "KreditInternal", "Internal", "DebetKomersial", "KreditKomersial", "Komersial", "PenyesuaianKomersial"}
-        'dgJurnal.colForEntry = {"PenyesuaianDebet", "PenyesuaianKredit", "KodeAkunPajak"}
-        'dgJurnal.colVisibleFalse = {"urut", "status", "NamaAkunPajak1", "FlagDelete", "KodeAkunLama", "JumlahLama", "Keterangan1"}
-        'dgJurnal.RefreshDataView()
 
         dgJurnal.FirstInit(data, _
                            {0.9, 0.4, 0.5, 1.5, _
@@ -136,7 +113,7 @@ Public Class frmJurnaldb
                             1, 1, 1, _
                             1, 0.5, 0.5}, _
                         {"DebetInternal", "KreditInternal", "Internal", "DebetKomersial", "KreditKomersial", "Komersial", "PenyesuaianKomersial"}, _
-                        {"PenyesuaianDebet", "PenyesuaianKredit", "KodeAkunPajak"}, {"urut", "status", "NamaAkunPajak1", "FlagDelete", "KodeAkunLama", "JumlahLama", "Keterangan1"}, , 50, False, )
+                        {"PenyesuaianDebet", "PenyesuaianKredit", "KodeAkunPajak"}, {"DebetOrKredit", "New", "urut", "status", "NamaAkunPajak1", "FlagDelete", "KodeAkunLama", "JumlahLama", "Keterangan1"}, , 50, False, )
         dgJurnal.ConnString = tJenis.Text
         dgJurnal.RefreshData(False)
 
@@ -160,18 +137,36 @@ Public Class frmJurnaldb
         Dim jenis As String = ""
 
         dgJurnal.SetRowCellValue(e.RowHandle, "status", "DIEDIT")
+
         If Not dgJurnal.GetRowCellValue(e.RowHandle, "PenyesuaianDebet") = "0" And Not dgJurnal.GetRowCellValue(e.RowHandle, "KreditInternal") = "0" Then
             dgJurnal.SetRowCellValue(e.RowHandle, "status", "TIDAK DIEDIT")
         ElseIf Not dgJurnal.GetRowCellValue(e.RowHandle, "PenyesuaianKredit") = "0" And Not dgJurnal.GetRowCellValue(e.RowHandle, "DebetInternal") = "0" Then
             dgJurnal.SetRowCellValue(e.RowHandle, "status", "TIDAK DIEDIT")
         End If
 
-        If dgJurnal.GetRowCellValue(e.RowHandle, "DebetInternal") = "0" Or dgJurnal.GetRowCellValue(e.RowHandle, "DebetInternal") = "0.0" Or IsDBNull(dgJurnal.GetRowCellValue(e.RowHandle, "DebetInternal")) Then
-            jenis = "KREDIT"
-            dgJurnal.SetRowCellValue(e.RowHandle, "PenyesuaianDebet", 0)
-        ElseIf dgJurnal.GetRowCellValue(e.RowHandle, "KreditInternal") = "0" Or dgJurnal.GetRowCellValue(e.RowHandle, "KreditInternal") = "0.0" Or IsDBNull(dgJurnal.GetRowCellValue(e.RowHandle, "KreditInternal")) Then
-            jenis = "DEBET"
-            dgJurnal.SetRowCellValue(e.RowHandle, "PenyesuaianKredit", 0)
+        Dim slsi As String = ""
+        If Not IsDBNull(dgJurnal.GetRowCellValue(e.RowHandle, "New")) Then
+            slsi = "BARU"
+        ElseIf dgJurnal.GetRowCellValue(e.RowHandle, "New").ToString = "1" Then
+            slsi = "BARU"
+        End If
+
+        If Not slsi = "BARU" Then
+            If dgJurnal.GetRowCellValue(e.RowHandle, "DebetInternal") = "0" Or dgJurnal.GetRowCellValue(e.RowHandle, "DebetInternal") = "0.0" Or IsDBNull(dgJurnal.GetRowCellValue(e.RowHandle, "DebetInternal")) Then
+                jenis = "KREDIT"
+                dgJurnal.SetRowCellValue(e.RowHandle, "PenyesuaianDebet", 0)
+            ElseIf dgJurnal.GetRowCellValue(e.RowHandle, "KreditInternal") = "0" Or dgJurnal.GetRowCellValue(e.RowHandle, "KreditInternal") = "0.0" Or IsDBNull(dgJurnal.GetRowCellValue(e.RowHandle, "KreditInternal")) Then
+                jenis = "DEBET"
+                dgJurnal.SetRowCellValue(e.RowHandle, "PenyesuaianKredit", 0)
+            End If
+        Else
+            If dgJurnal.GetRowCellValue(e.RowHandle, "DebetOrKredit") = "D" Then
+                jenis = "DEBET"
+                dgJurnal.SetRowCellValue(e.RowHandle, "PenyesuaianKredit", 0)
+            ElseIf dgJurnal.GetRowCellValue(e.RowHandle, "DebetOrKredit") = "K" Then
+                jenis = "KREDIT"
+                dgJurnal.SetRowCellValue(e.RowHandle, "PenyesuaianDebet", 0)
+            End If
         End If
 
         If IsDBNull(dgJurnal.GetRowCellValue(e.RowHandle, "PenyesuaianDebet")) Then
@@ -276,7 +271,7 @@ Public Class frmJurnaldb
                 dr.Read()
                 Dim query As String = ""
                 If dr.HasRows Then
-                    query = "update tbACJurnalEdit set FlagDelete = '1' where NoBukti='" & dgJurnal.GetRowCellValue(dgJurnal.FocusedRowHandle, "NoBukti") & "' and KodeAkun='" & dgJurnal.GetRowCellValue(dgJurnal.FocusedRowHandle, "KodeAkunPajak") & "' and NoUrutAkun='" & dgJurnal.GetRowCellValue(dgJurnal.FocusedRowHandle, "NoUrutAkun") & "'"
+                    query = "update tbACJurnalEdit set FlagDelete = '1',FlagPostingJurnalOri='0' where NoBukti='" & dgJurnal.GetRowCellValue(dgJurnal.FocusedRowHandle, "NoBukti") & "' and KodeAkun='" & dgJurnal.GetRowCellValue(dgJurnal.FocusedRowHandle, "KodeAkunPajak") & "' and NoUrutAkun='" & dgJurnal.GetRowCellValue(dgJurnal.FocusedRowHandle, "NoUrutAkun") & "'"
                     dr.Close()
                 Else
                     dr.Close()
@@ -394,10 +389,18 @@ Public Class frmJurnaldb
                     '"'" & dr!IdDepartemen & "','" & kodeakun & "','" & dr!NoUrutAkun & "','" & dr!Keterangan & "','" & jml & "'," & _
                     '"DateTimeEntry,NoRecord,TadaID,KodeAkunLama,JumlahLama,NamaAkunPajak,FlagDelete) values (" & _
                     '"'" & datetimeentry.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!NoRecord & "','" & dr!TadaID & "','" & dr!KodeAkun & "','" & dr!Jumlah & "','" & dgJurnal.GetRowCellValue(dgJurnal.FocusedRowHandle, "NamaAkunPajak") & "','1')"
+                    Dim editjurnalori As String = _
+                        "update tbACJurnal set KodeAkunLama='" & dr!KodeAkun & "',JumlahLama='" & dr!Jumlah & "' " & _
+                        "where NoBukti='" & dr!NoBukti & "' and NoUrutAkun='" & dr!NoUrutAkun & "' and KodeCompany='" & dr!KodeCompany & "' and KodeAkun='" & dr!KodeAkun & "'"
+
                     dr.Close()
+
+                    cmd = New SqlCommand(editjurnalori, kon)
+                    cmd.ExecuteNonQuery()
                 End If
                 cmd = New SqlCommand(query, kon)
                 cmd.ExecuteNonQuery()
+
                 MsgBox("Hapus Data Berhasil", vbInformation + vbOKOnly, "Informasi")
                 isigrid()
                 dgJurnal.gvMain.LoadingPanelVisible = False
@@ -466,7 +469,6 @@ Public Class frmJurnaldb
                                     dr = cmd.ExecuteReader
                                     dr.Read()
                                     If dr.HasRows Then
-
                                         idbankbaru = dr!IdBank
                                     End If
                                     dr.Close()
@@ -551,18 +553,40 @@ Public Class frmJurnaldb
                             End If
 
                             'cari dijurnaledit sudah ada apa belum. kalo belum insert kalo sudah ada edit
-                            Dim cardatajurnaledit As String = _
+                            Dim slksi As String = ""
+                            If data(i).Item("New").ToString = "1" Then
+                                slksi = "BARU"
+                            ElseIf Not IsDBNull(data(i).Item("New")) Then
+                                slksi = "BARU"
+                            End If
+                            Dim cardatajurnaledit As String = ""
+                            If Not slksi = "BARU" Then
+                                cardatajurnaledit = _
                                 "select * from tbACJurnalEdit where NoBukti='" & data(i).Item("NoBukti") & "' and KodeAkunLama='" & data(i).Item("KodeAkun") & "' " & _
-                                    "and NoUrutAkun='" & data(i).Item("NoUrutAkun") & "'"
+                                "and NoUrutAkun='" & data(i).Item("NoUrutAkun") & "'"
+                            Else
+                                cardatajurnaledit = _
+                                "select * from tbACJurnalEdit where NoBukti='" & data(i).Item("NoBukti") & "' and KodeAkunLama='" & data(i).Item("KodeAkunLama") & "' " & _
+                                "and NoUrutAkun='" & data(i).Item("NoUrutAkun") & "'"
+                            End If
+                            
                             cmd = New SqlCommand(cardatajurnaledit, kon)
                             dr = cmd.ExecuteReader
                             dr.Read()
                             If dr.HasRows Then
                                 Dim kd As String = dr!KodeAkun
                                 dr.Close()
-                                Dim updatejurnaledit As String = _
-                                    "update tbACJurnalEdit set KodeAkun='" & data(i).Item("KodeAkunPajak") & "', NamaAkunPajak='" & data(i).Item("NamaAkunPajak") & "', Jumlah='" & jml & "' " & _
-                                    "where NoBukti='" & data(i).Item("NoBukti") & "' and KodeAkun='" & kd & "' and KodeAkunLama='" & data(i).Item("KodeAkun") & "' and NoUrutAkun='" & data(i).Item("NoUrutAkun") & "'"
+                                Dim updatejurnaledit As String
+
+                                If Not slksi = "BARU" Then
+                                    updatejurnaledit = _
+                                        "update tbACJurnalEdit set KodeAkun='" & data(i).Item("KodeAkunPajak") & "', NamaAkunPajak='" & data(i).Item("NamaAkunPajak") & "', Jumlah='" & jml & "',FlagPostingJurnalOri='0' " & _
+                                        "where NoBukti='" & data(i).Item("NoBukti") & "' and KodeAkun='" & kd & "' and KodeAkunLama='" & data(i).Item("KodeAkun") & "' and NoUrutAkun='" & data(i).Item("NoUrutAkun") & "'"
+                                Else
+                                    updatejurnaledit = _
+                                        "update tbACJurnalEdit set KodeAkun='" & data(i).Item("KodeAkunPajak") & "', NamaAkunPajak='" & data(i).Item("NamaAkunPajak") & "', Jumlah='" & jml & "',FlagPostingJurnalOri='0' " & _
+                                        "where NoBukti='" & data(i).Item("NoBukti") & "' and KodeAkun='" & kd & "' and KodeAkunLama='" & data(i).Item("KodeAkunLama") & "' and NoUrutAkun='" & data(i).Item("NoUrutAkun") & "'"
+                                End If
                                 cmd = New SqlCommand(updatejurnaledit, kon)
                                 cmd.ExecuteNonQuery()
                             Else
@@ -585,8 +609,16 @@ Public Class frmJurnaldb
                                     "'" & dr!IdDepartemen & "','" & kodeakun & "','" & dr!NoUrutAkun & "','" & dr!Keterangan & "','" & jml & "'," & _
                                     "'" & dr!DebetOrKredit & "','" & dr!FlagPosting & "','" & postingdate.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!IdTransaksi & "','" & dr!UserEntry & "'," & _
                                     "'" & datetimeentry.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!NoRecord & "','" & dr!TadaID & "','" & dr!KodeAkun & "','" & dr!Jumlah & "','" & data(i).Item("NamaAkunPajak") & "','0')"
+
+                                Dim editjurnalori As String = _
+                                    "update tbACJurnal set KodeAkunLama='" & dr!KodeAkun & "',JumlahLama='" & dr!Jumlah & "' " & _
+                                    "where NoBukti='" & dr!NoBukti & "' and NoUrutAkun='" & dr!NoUrutAkun & "' and KodeCompany='" & dr!KodeCompany & "' and KodeAkun='" & dr!KodeAkun & "'"
+
                                 dr.Close()
                                 cmd = New SqlCommand(queryhistoryedit, kon)
+                                cmd.ExecuteNonQuery()
+
+                                cmd = New SqlCommand(editjurnalori, kon)
                                 cmd.ExecuteNonQuery()
                             End If
                         Next
@@ -639,127 +671,148 @@ Public Class frmJurnaldb
             Dim titikkumpul As String = _
                 "select KodeCompany,NoBukti,TanggalBukti,Tipe,KodeCabang,IdDepartemen,KodeAkun,NoUrutAkun,Keterangan,Jumlah,DebetOrKredit," & _
                 "FlagPosting,PostingDate,IdTransaksi,UserEntry,DateTimeEntry,UserUpdate,DateTimeUpdate,NoRecord," & _
-                "TadaID,isnull(FlagDelete,0) as FlagDelete,KodeAkunLama,JumlahLama,NamaAkunPajak,FlagPostingJurnalOri" & _
-                " from tbACJurnalEdit where isnull(FlagPostingJurnalOri,0) <> '1' and month(TanggalBukti)='" & Format(dBulan.EditValue, "MM") & "' and year(TanggalBukti)='" & Format(dBulan.EditValue, "yyyy") & "'"
+                "TadaID,isnull(FlagDelete,0) as FlagDelete,KodeAkunLama,JumlahLama,NamaAkunPajak,FlagPostingJurnalOri,New " & _
+                "from tbACJurnalEdit where isnull(FlagPostingJurnalOri,0) <> '1' and month(TanggalBukti)='" & Format(dBulan.EditValue, "MM") & "' and year(TanggalBukti)='" & Format(dBulan.EditValue, "yyyy") & "'"
             dbdb.FillMe(titikkumpul, False)
 
             For a = 0 To dbdb.Rows.Count - 1
                 Dim query As String = ""
-                If dbdb.Rows(a).Item("FlagDelete") = "1" Then
-                    Dim qpost As String = ""
-                    If dbdb.Rows(a).Item("NoUrutAkun") = "1" Then
-                        Dim idbank As String = ""
-                        Dim qq As String = _
-                            "select IdBank from tbACKasBank where KodeAkun='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and KodeCompany='" & dbdb.Rows(a).Item("KodeCompany") & "'"
-                        cmd = New SqlCommand(qq, kon)
-                        dr = cmd.ExecuteReader
-                        dr.Read()
-                        If dr.HasRows Then
-                            idbank = dr!IdBank
-                        End If
-                        dr.Close()
-                        query = _
-                            "delete from tbACVoucherHd where IdBank='" & idbank & "' and KodeCompany='" & dbdb.Rows(a).Item("KodeCompany") & "' and Nomor='" & dbdb.Rows(a).Item("NoBukti") & "'"
-                        qpost = _
-                            "update tbACVoucherHdEdit set FlagPostingOri='1' " & _
-                            "where IdBank='" & idbank & "' and KodeCompany='" & dbdb.Rows(a).Item("KodeCompany") & "' and Nomor='" & dbdb.Rows(a).Item("NoBukti") & "'"
-                    Else
-                        Dim nourutakun As Integer = dbdb.Rows(a).Item("NoUrutAkun") - 1
-                        query = _
-                            "delete from tbACVoucherDt where Nomor='" & dbdb.Rows(a).Item("NoBukti") & "' and KodeAkun='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and NoUrut='" & nourutakun & "'"
-                        qpost = _
-                        "update tbACVoucherDtEdit set FlagPostingOri='1' " & _
-                        "where Nomor='" & dbdb.Rows(a).Item("NoBukti") & "' and KodeAkun='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and NoUrut='" & nourutakun & "'"
-                    End If
+                Dim slksi As String = ""
+                If Not dbdb.Rows(a).Item("New").ToString = "1" Then
+                    slksi = "ntbaru"
+                ElseIf IsDBNull(dbdb.Rows(a).Item("New")) Then
+                    slksi = "ntbaru"
+                End If
 
-                    If Not Strings.Left(dbdb.Rows(a).Item("NoBukti"), 3) = "JPU" Or Not Strings.Left(dbdb.Rows(a).Item("NoBukti"), 3) = "MEM" Then
-                        cmd = New SqlCommand(qpost, kon)
-                        cmd.ExecuteNonQuery()
+                If Not slksi = "ntbaru" Then
+                    Dim postjur As String = _
+                        "update tbACJurnal set FlagPosting='1',PostingDate='" & DTOC(Now, "/", True) & "' " & _
+                        "where NoBukti='" & dbdb.Rows(a).Item("NoBukti") & "' and NoUrutAkun='" & dbdb.Rows(a).Item("NoUrutAkun") & "' and KodeAkunLama='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and JumlahLama='" & dbdb.Rows(a).Item("JumlahLama") & "'"
+                    cmd = New SqlCommand(postjur, kon)
+                    cmd.ExecuteNonQuery()
 
-                        cmd = New SqlCommand(query, kon)
-                        cmd.ExecuteNonQuery()
-                    End If
-
-                    Dim hapusjurnalori As String = _
-                        "delete from tbACJurnal " & _
-                        "where NoBukti='" & dbdb.Rows(a).Item("NoBukti") & "' and NoUrutAkun='" & dbdb.Rows(a).Item("NoUrutAkun") & "' and KodeAkun='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and Jumlah='" & dbdb.Rows(a).Item("JumlahLama") & "'"
-                    cmd = New SqlCommand(hapusjurnalori, kon)
+                    Dim upjuredit As String = _
+                        "update tbACJurnalEdit set FlagPosting='1',PostingDate='" & DTOC(Now, "/", True) & "' " & _
+                        "where NoBukti='" & dbdb.Rows(a).Item("NoBukti") & "' and KodeAkun='" & dbdb.Rows(a).Item("KodeAkun") & "' and NoUrutAkun='" & dbdb.Rows(a).Item("NoUrutAkun") & "'"
+                    cmd = New SqlCommand(upjuredit, kon)
                     cmd.ExecuteNonQuery()
                 Else
-                    Dim tbl As String = ""
-                    Dim tbl2 As String = ""
-                    Dim quetambah As String = ""
-                    Dim quewhere As String = ""
-                    Dim quewhereposting As String = ""
-                    Dim nourutakun As Integer
-
-                    Dim kondisi As String = ""
-                    If Strings.Left(dbdb.Rows(a).Item("NoBukti"), 3) = "MEM" Then
-                        kondisi = "MEMJPU"
-                    ElseIf Strings.Left(dbdb.Rows(a).Item("NoBukti"), 3) = "JPU" Then
-                        kondisi = "MEMJPU"
-                    End If
-
-                    If dbdb.Rows(a).Item("NoUrutAkun") = "1" And Not kondisi = "MEMJPU" Then
-                        Dim idbank As String = ""
-                        Dim idbankbaru As String = ""
-                        Dim qq As String = _
-                            "select IdBank from tbACKasBank where KodeAkun='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and KodeCompany='" & dbdb.Rows(a).Item("KodeCompany") & "'"
-                        cmd = New SqlCommand(qq, kon)
-                        dr = cmd.ExecuteReader
-                        dr.Read()
-                        idbank = dr!IdBank
-                        dr.Close()
-
-                        Dim qqq As String = _
-                            "select IdBank from tbACKasBank where KodeAkun='" & dbdb.Rows(a).Item("KodeAkun") & "' and KodeCompany='" & dbdb.Rows(a).Item("KodeCompany") & "'"
-                        cmd = New SqlCommand(qqq, kon)
-                        dr = cmd.ExecuteReader
-                        dr.Read()
-                        If dr.HasRows Then
-                            idbankbaru = dr!IdBank
+                    If dbdb.Rows(a).Item("FlagDelete") = "1" Then
+                        Dim qpost As String = ""
+                        If dbdb.Rows(a).Item("NoUrutAkun") = "1" Then
+                            Dim idbank As String = ""
+                            Dim qq As String = _
+                                "select IdBank from tbACKasBank where KodeAkun='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and KodeCompany='" & dbdb.Rows(a).Item("KodeCompany") & "'"
+                            cmd = New SqlCommand(qq, kon)
+                            dr = cmd.ExecuteReader
+                            dr.Read()
+                            If dr.HasRows Then
+                                idbank = dr!IdBank
+                            End If
+                            dr.Close()
+                            query = _
+                                "delete from tbACVoucherHd where IdBank='" & idbank & "' and KodeCompany='" & dbdb.Rows(a).Item("KodeCompany") & "' and Nomor='" & dbdb.Rows(a).Item("NoBukti") & "'"
+                            qpost = _
+                                "update tbACVoucherHdEdit set FlagPostingOri='1' " & _
+                                "where IdBank='" & idbank & "' and KodeCompany='" & dbdb.Rows(a).Item("KodeCompany") & "' and Nomor='" & dbdb.Rows(a).Item("NoBukti") & "'"
+                        Else
+                            Dim nourutakun As Integer = dbdb.Rows(a).Item("NoUrutAkun") - 1
+                            query = _
+                                "delete from tbACVoucherDt where Nomor='" & dbdb.Rows(a).Item("NoBukti") & "' and KodeAkun='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and NoUrut='" & nourutakun & "'"
+                            qpost = _
+                            "update tbACVoucherDtEdit set FlagPostingOri='1' " & _
+                            "where Nomor='" & dbdb.Rows(a).Item("NoBukti") & "' and KodeAkun='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and NoUrut='" & nourutakun & "'"
                         End If
-                        dr.Close()
 
-                        tbl = "tbACVoucherHd"
-                        tbl2 = "tbACVoucherHdEdit"
-                        nourutakun = dbdb.Rows(a).Item("NoUrutAkun")
-                        quewhere = "IdBank ='" & idbank & "'"
-                        quewhereposting = "IdBank='" & idbankbaru & "' and IdBankLama='" & idbank & "'"
-                        quetambah = "IdBank ='" & idbankbaru & "',Total='" & dbdb.Rows(a).Item("Jumlah") & "',IdBankLama='" & idbank & "',TotalLama='" & dbdb.Rows(a).Item("JumlahLama") & "'"
+                        If Not Strings.Left(dbdb.Rows(a).Item("NoBukti"), 3) = "JPU" Or Not Strings.Left(dbdb.Rows(a).Item("NoBukti"), 3) = "MEM" Then
+                            cmd = New SqlCommand(qpost, kon)
+                            cmd.ExecuteNonQuery()
+
+                            cmd = New SqlCommand(query, kon)
+                            cmd.ExecuteNonQuery()
+                        End If
+
+                        Dim hapusjurnalori As String = _
+                            "delete from tbACJurnal " & _
+                            "where NoBukti='" & dbdb.Rows(a).Item("NoBukti") & "' and NoUrutAkun='" & dbdb.Rows(a).Item("NoUrutAkun") & "' and KodeAkun='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and Jumlah='" & dbdb.Rows(a).Item("JumlahLama") & "'"
+                        cmd = New SqlCommand(hapusjurnalori, kon)
+                        cmd.ExecuteNonQuery()
                     Else
-                        tbl = "tbACVoucherDt"
-                        tbl2 = "tbACVoucherDtEdit"
-                        nourutakun = dbdb.Rows(a).Item("NoUrutAkun") - 1
-                        quewhere = "KodeAkun='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and NoUrut='" & nourutakun & "'"
-                        quewhereposting = "KodeAkun='" & dbdb.Rows(a).Item("KodeAkun") & "' and NoUrut='" & nourutakun & "' and KodeAkunLama='" & dbdb.Rows(a).Item("KodeAkunLama") & "'"
-                        quetambah = "KodeAkun='" & dbdb.Rows(a).Item("KodeAkun") & "',Jumlah='" & dbdb.Rows(a).Item("Jumlah") & "',KodeAkunLama='" & dbdb.Rows(a).Item("KodeAkunLama") & "',JumlahLama='" & dbdb.Rows(a).Item("JumlahLama") & "'"
-                    End If
-                    query = _
-                            "update " & tbl & " set " & quetambah & " " & _
-                            "where Nomor='" & dbdb.Rows(a).Item("NoBukti") & "' and " & quewhere & ""
+                        Dim tbl As String = ""
+                        Dim tbl2 As String = ""
+                        Dim quetambah As String = ""
+                        Dim quewhere As String = ""
+                        Dim quewhereposting As String = ""
+                        Dim nourutakun As Integer
 
-                    'If Not Strings.Left(dbdb.Rows(a).Item("NoBukti"), 3) = "JPU" Or Not Strings.Left(dbdb.Rows(a).Item("NoBukti"), 3) = "MEM" Then
-                    If Not kondisi = "MEMJPU" Then
-                        cmd = New SqlCommand(query, kon)
+                        Dim kondisi As String = ""
+                        If Strings.Left(dbdb.Rows(a).Item("NoBukti"), 3) = "MEM" Then
+                            kondisi = "MEMJPU"
+                        ElseIf Strings.Left(dbdb.Rows(a).Item("NoBukti"), 3) = "JPU" Then
+                            kondisi = "MEMJPU"
+                        End If
+
+                        If dbdb.Rows(a).Item("NoUrutAkun") = "1" And Not kondisi = "MEMJPU" Then
+                            Dim idbank As String = ""
+                            Dim idbankbaru As String = ""
+                            Dim qq As String = _
+                                "select IdBank from tbACKasBank where KodeAkun='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and KodeCompany='" & dbdb.Rows(a).Item("KodeCompany") & "'"
+                            cmd = New SqlCommand(qq, kon)
+                            dr = cmd.ExecuteReader
+                            dr.Read()
+                            idbank = dr!IdBank
+                            dr.Close()
+
+                            Dim qqq As String = _
+                                "select IdBank from tbACKasBank where KodeAkun='" & dbdb.Rows(a).Item("KodeAkun") & "' and KodeCompany='" & dbdb.Rows(a).Item("KodeCompany") & "'"
+                            cmd = New SqlCommand(qqq, kon)
+                            dr = cmd.ExecuteReader
+                            dr.Read()
+                            If dr.HasRows Then
+                                idbankbaru = dr!IdBank
+                            End If
+                            dr.Close()
+
+                            tbl = "tbACVoucherHd"
+                            tbl2 = "tbACVoucherHdEdit"
+                            nourutakun = dbdb.Rows(a).Item("NoUrutAkun")
+                            quewhere = "IdBank ='" & idbank & "'"
+                            quewhereposting = "IdBank='" & idbankbaru & "' and IdBankLama='" & idbank & "'"
+                            quetambah = "IdBank ='" & idbankbaru & "',Total='" & dbdb.Rows(a).Item("Jumlah") & "',IdBankLama='" & idbank & "',TotalLama='" & dbdb.Rows(a).Item("JumlahLama") & "'"
+                        Else
+                            tbl = "tbACVoucherDt"
+                            tbl2 = "tbACVoucherDtEdit"
+                            nourutakun = dbdb.Rows(a).Item("NoUrutAkun") - 1
+                            quewhere = "KodeAkun='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and NoUrut='" & nourutakun & "'"
+                            quewhereposting = "KodeAkun='" & dbdb.Rows(a).Item("KodeAkun") & "' and NoUrut='" & nourutakun & "' and KodeAkunLama='" & dbdb.Rows(a).Item("KodeAkunLama") & "'"
+                            quetambah = "KodeAkun='" & dbdb.Rows(a).Item("KodeAkun") & "',Jumlah='" & dbdb.Rows(a).Item("Jumlah") & "',KodeAkunLama='" & dbdb.Rows(a).Item("KodeAkunLama") & "',JumlahLama='" & dbdb.Rows(a).Item("JumlahLama") & "'"
+                        End If
+                        query = _
+                                "update " & tbl & " set " & quetambah & " " & _
+                                "where Nomor='" & dbdb.Rows(a).Item("NoBukti") & "' and " & quewhere & ""
+
+                        'If Not Strings.Left(dbdb.Rows(a).Item("NoBukti"), 3) = "JPU" Or Not Strings.Left(dbdb.Rows(a).Item("NoBukti"), 3) = "MEM" Then
+                        If Not kondisi = "MEMJPU" Then
+                            cmd = New SqlCommand(query, kon)
+                            cmd.ExecuteNonQuery()
+
+                            Dim qposting As String = _
+                                "update " & tbl2 & " set FlagPostingOri='1' " & _
+                                "where Nomor='" & dbdb.Rows(a).Item("NoBukti") & "' and " & quewhereposting & ""
+                            cmd = New SqlCommand(qposting, kon)
+                            cmd.ExecuteNonQuery()
+                        End If
+
+                        Dim editjurnalori As String = _
+                            "update tbACJurnal set KodeAkun='" & dbdb.Rows(a).Item("KodeAkun") & "', Jumlah='" & dbdb.Rows(a).Item("Jumlah") & "'," & _
+                            "KodeAkunLama='" & dbdb.Rows(a).Item("KodeAkunLama") & "',JumlahLama='" & dbdb.Rows(a).Item("JumlahLama") & "' " & _
+                            "where NoBukti='" & dbdb.Rows(a).Item("NoBukti") & "' and NoUrutAkun='" & dbdb.Rows(a).Item("NoUrutAkun") & "' and KodeAkunLama='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and JumlahLama='" & dbdb.Rows(a).Item("JumlahLama") & "'"
+                        cmd = New SqlCommand(editjurnalori, kon)
                         cmd.ExecuteNonQuery()
-
-                        Dim qposting As String = _
-                            "update " & tbl2 & " set FlagPostingOri='1' " & _
-                            "where Nomor='" & dbdb.Rows(a).Item("NoBukti") & "' and " & quewhereposting & ""
-                        cmd = New SqlCommand(qposting, kon)
-                        cmd.ExecuteNonQuery()
                     End If
-
-                    Dim editjurnalori As String = _
-                        "update tbACJurnal set KodeAkun='" & dbdb.Rows(a).Item("KodeAkun") & "', Jumlah='" & dbdb.Rows(a).Item("Jumlah") & "'," & _
-                        "KodeAkunLama='" & dbdb.Rows(a).Item("KodeAkunLama") & "',JumlahLama='" & dbdb.Rows(a).Item("JumlahLama") & "' " & _
-                        "where NoBukti='" & dbdb.Rows(a).Item("NoBukti") & "' and NoUrutAkun='" & dbdb.Rows(a).Item("NoUrutAkun") & "' and KodeAkun='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and Jumlah='" & dbdb.Rows(a).Item("JumlahLama") & "'"
-                    cmd = New SqlCommand(editjurnalori, kon)
+                    cmd = New SqlCommand(query, kon)
                     cmd.ExecuteNonQuery()
                 End If
-                cmd = New SqlCommand(query, kon)
-                cmd.ExecuteNonQuery()
 
                 Dim editposting As String = _
                     "update tbACJurnalEdit set FlagPostingJurnalOri='1' where NoBukti='" & dbdb.Rows(a).Item("NoBukti") & "' and KodeAkun='" & dbdb.Rows(a).Item("KodeAkun") & "' and NoUrutAkun='" & dbdb.Rows(a).Item("NoUrutAkun") & "'"

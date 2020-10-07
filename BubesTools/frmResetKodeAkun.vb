@@ -66,175 +66,38 @@ Public Class frmResetKodeAkun
             MsgBox("Pilih Data Yang Akan DiKembalikan Dulu!", vbCritical + vbOKOnly, "Peringatan")
         Else
             For i = 0 To drow.Length - 1
-                If drow(i).Item("Keterangan") = "DiHapus" Then
-                    If Not Strings.Left(drow(i).Item("NoBukti"), 3) = "MEM" Or Not Strings.Left(drow(i).Item("NoBukti"), 3) = "JPU" Then
-                        If drow(i).Item("NoUrutAkun") = "1" Then
-                            'hd
-                            Dim idbank As String = ""
-                            Dim cariidbank As String = _
-                                "select IdBank from tbACKasBank where KodeAkun='" & drow(i).Item("KodeAkun") & "' and KodeCompany='" & Strings.Left(drow(i).Item("KodeAkunLama"), 2) & "'"
-                            cmd = New SqlCommand(cariidbank, kon)
-                            dr = cmd.ExecuteReader
-                            dr.Read()
-                            idbank = dr!IdBank
-                            dr.Close()
-
-                            Dim ambilhdedit As String = _
-                                "select * from tbACVoucherHdEdit where Nomor='" & drow(i).Item("NoBukti") & "' and IdBank='" & idbank & "'"
-                            cmd = New SqlCommand(ambilhdedit, kon)
-                            dr = cmd.ExecuteReader
-                            dr.Read()
-                            Dim datetimeentryhd As DateTime = dr!DateTimeEntry
-                            Dim datetimeupdatehd As DateTime = dr!DateTimeUpdate
-                            Dim tglhd As DateTime = dr!Tanggal
-                            Dim tambahhd As String = _
-                                "insert into tbACVoucherHd (Nomor,Tanggal,KodeCompany,IdBank,FlagTransaksi," & _
-                                "Keterangan1,Keterangan,Total,NoCekBG,BankCekBG," & _
-                                "FlagTunai,FlagValidasi,FlagPosting,Catatan," & _
-                                "UserEntry,DateTimeEntry,UserUpdate,DateTimeUpdate,NoUrut," & _
-                                "cek,TadaID,NoRef) values (" & _
-                                "'" & dr!Nomor & "','" & tglhd.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!KodeCompany & "','" & idbank & "','" & dr!FlagTransaksi & "'," & _
-                                "'" & dr!Keterangan1 & "','" & dr!Keterangan & "','" & dr!Total & "','" & dr!NoCekBG & "','" & dr!BankCekBG & "'," & _
-                                "'" & dr!FlagTunai & "','" & dr!FlagValidasi & "','" & dr!FlagPosting & "','" & dr!Catatan & "'," & _
-                                "'" & dr!UserEntry & "','" & datetimeentryhd.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!UserUpdate & "','" & datetimeupdatehd.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!NoUrut & "'," & _
-                                "'" & dr!cek & "','" & dr!TadaID & "','" & dr!NoRef & "')"
-                            dr.Close()
-                            cmd = New SqlCommand(tambahhd, kon)
-                            cmd.ExecuteNonQuery()
-
-                            Dim hapushdedit As String = _
-                                "delete from tbACVoucherHdEdit where Nomor='" & drow(i).Item("NoBukti") & "' and IdBank='" & idbank & "'"
-                            cmd = New SqlCommand(hapushdedit, kon)
-                            cmd.ExecuteNonQuery()
-                        Else
-                            'dt
-                            Dim ambildtedit As String = _
-                                "select * from tbACVoucherDtEdit where Nomor='" & drow(i).Item("NoBukti") & "' and KodeAkun='" & drow(i).Item("KodeAkun") & "' and NoUrut='" & drow(i).Item("NoUrutAkun") - 1 & "'"
-                            cmd = New SqlCommand(ambildtedit, kon)
-                            dr = cmd.ExecuteReader
-                            dr.Read()
-                            Dim datetimeentrydt As DateTime = dr!DateTimeEntry
-                            Dim datetimeupdatedt As DateTime = dr!DateTimeUpdate
-                            Dim tambahdt As String = _
-                                 "insert into tbACVoucherDt (Nomor,NoUrut,KodeAkun,KodeCabang,IdDepartemen," & _
-                                "Keterangan,Jumlah,Saldo,UserEntry,DateTimeEntry," & _
-                                "UserUpdate,DateTimeUpdate,NoRecord,Cek,TadaID" & _
-                                ") values (" & _
-                                "'" & dr!Nomor & "','" & dr!NoUrut & "','" & dr!KodeAkun & "','" & dr!KodeCabang & "','" & dr!IdDepartemen & "'," & _
-                                "'" & dr!Keterangan & "','" & dr!Jumlah & "','" & dr!Saldo & "','" & dr!UserEntry & "','" & datetimeentrydt.ToString("yyyy-MM-dd hh:mm:ss") & "'," & _
-                                "'" & dr!UserUpdate & "','" & datetimeupdatedt.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!NoRecord & "','" & dr!Cek & "','" & dr!TadaID & "'" & _
-                                ")"
-                            dr.Close()
-                            cmd = New SqlCommand(tambahdt, kon)
-                            cmd.ExecuteNonQuery()
-
-                            Dim hapusdtedit As String = _
-                                "delete from tbACVoucherDtEdit where Nomor='" & drow(i).Item("NoBukti") & "' and KodeAkun='" & drow(i).Item("KodeAkun") & "' and NoUrut='" & drow(i).Item("NoUrutAkun") - 1 & "'"
-                            cmd = New SqlCommand(hapusdtedit, kon)
-                            cmd.ExecuteNonQuery()
-                        End If
-                    End If
-                    'jurnal
-                    Dim ambiljurnaledit As String = _
-                        "select * from tbACJurnalEdit where NoBukti='" & drow(i).Item("NoBukti") & "' and KodeAkun='" & drow(i).Item("KodeAkun") & "' and NoUrutAkun='" & drow(i).Item("NoUrutAkun") & "'"
-                    cmd = New SqlCommand(ambiljurnaledit, kon)
+                If drow(i).Item("StatusPerubahan") = "Dihapus" Then
+                    Dim ambilkodeakunedit As String = _
+                        "select * from tbACKodeAkunEdit where KodeAkun='" & drow(i).Item("KodeAkun") & "'"
+                    cmd = New SqlCommand(ambilkodeakunedit, kon)
                     dr = cmd.ExecuteReader
                     dr.Read()
-                    Dim datetimeentry As DateTime = dr!DateTimeEntry
-                    Dim postingdate As DateTime = dr!PostingDate
-                    Dim tglbukti As DateTime = dr!TanggalBukti
-                    Dim tambahjurnal As String = _
-                         "insert into tbACJurnal (KodeCompany,NoBukti,TanggalBukti,Tipe,KodeCabang," & _
-                        "IdDepartemen,KodeAkun,NoUrutAkun,Keterangan,Jumlah," & _
-                        "DebetOrKredit,FlagPosting,PostingDate,IdTransaksi,UserEntry," & _
-                        "DateTimeEntry,NoRecord,TadaID) values (" & _
-                        "'" & dr!KodeCompany & "','" & dr!NoBukti & "','" & tglbukti.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!Tipe & "','" & dr!KodeCabang & "'," & _
-                        "'" & dr!IdDepartemen & "','" & dr!KodeAkun & "','" & dr!NoUrutAkun & "','" & dr!Keterangan & "','" & dr!Jumlah & "'," & _
-                        "'" & dr!DebetOrKredit & "','" & dr!FlagPosting & "','" & postingdate.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!IdTransaksi & "','" & dr!UserEntry & "'," & _
-                        "'" & datetimeentry.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!NoRecord & "','" & dr!TadaID & "')"
+                    Dim tambahkode As String = _
+                        "insert into tbACKodeAkun (KodeAkun,Keterangan,LevelAkun,DebetOrKredit,IdKategori," & _
+                        "StatusJurnal,KodeAkunInduk,KodeCabang,KodeCompany) values (" & _
+                        "'" & dr!KodeAkun & "','" & dr!KeteranganLama & "','" & dr!LevelAkunLama & "','" & dr!DebetOrKreditLama & "','" & dr!IdKategoriLama & "'," & _
+                        "'" & dr!StatusJurnalLama & "','" & dr!KodeAkunIndukLama & "','" & dr!KodeCabangLama & "')"
                     dr.Close()
-                    cmd = New SqlCommand(tambahjurnal, kon)
+                    cmd = New SqlCommand(tambahkode, kon)
                     cmd.ExecuteNonQuery()
 
-                    Dim hapusjurnaledit As String = _
-                        "delete from tbACJurnalEdit where NoBukti='" & drow(i).Item("NoBukti") & "' and KodeAkun='" & drow(i).Item("KodeAkun") & "' and NoUrutAkun='" & drow(i).Item("NoUrutAkun") & "'"
-                    cmd = New SqlCommand(hapusjurnaledit, kon)
+                    Dim hapuskodeedit As String = _
+                        "delete from tbACKodeAkunEdit where KodeAkun='" & drow(i).Item("KodeAkun") & "'"
+                    cmd = New SqlCommand(hapuskodeedit, kon)
                     cmd.ExecuteNonQuery()
 
-                ElseIf drow(i).Item("Keterangan") = "DiEdit" Then
-                    Dim kondisi As String = ""
-                    If Strings.Left(drow(i).Item("NoBukti"), 3) = "MEM" Then
-                        kondisi = "MEMJPU"
-                    ElseIf Strings.Left(drow(i).Item("NoBukti"), 3) = "JPU" Then
-                        kondisi = "MEMJPU"
-                    End If
+                ElseIf drow(i).Item("StatusPerubahan") = "Diedit" Then
 
-                    If Not kondisi = "MEMJPU" Then
-                        If drow(i).Item("NoUrutAkun") = "1" Then
-                            Dim idbanklama As String = ""
-                            Dim idbanksekarang As String = ""
-                            Dim cariidbank As String = _
-                                "select IdBank from tbACKasBank where KodeAkun='" & drow(i).Item("KodeAkunLama") & "' and KodeCompany='" & Strings.Left(drow(i).Item("KodeAkunLama"), 2) & "'"
-                            cmd = New SqlCommand(cariidbank, kon)
-                            dr = cmd.ExecuteReader
-                            dr.Read()
-                            idbanklama = dr!IdBank
-                            dr.Close()
-
-                            Dim qqq As String = _
-                                "select IdBank from tbACKasBank where KodeAkun='" & drow(i).Item("KodeAkun") & "' and KodeCompany='" & Strings.Left(drow(i).Item("KodeAkun"), 2) & "'"
-                            cmd = New SqlCommand(qqq, kon)
-                            dr = cmd.ExecuteReader
-                            dr.Read()
-                            If dr.HasRows Then
-                                idbanksekarang = dr!IdBank
-                            End If
-                            dr.Close()
-
-                            'ubah vouhd ori
-                            Dim ubahvouhdori As String = _
-                                "update tbACVoucherHd set IdBank='" & idbanklama & "',Total='" & drow(i).Item("JumlahLama") & "',IdBankLama='',TotalLama='' " & _
-                                "where Nomor='" & drow(i).Item("NoBukti") & "' and IdBankLama='" & idbanklama & "' and " & _
-                                "TotalLama='" & drow(i).Item("JumlahLama") & "' and IdBank='" & idbanksekarang & "' and Total='" & drow(i).Item("Jumlah") & "'"
-                            cmd = New SqlCommand(ubahvouhdori, kon)
-                            cmd.ExecuteNonQuery()
-
-                            'hapus vouhd edit
-                            Dim hapusvouhdedit As String = _
-                                "delete from tbACVoucherHdEdit where IdBank='" & idbanksekarang & "' and IdBankLama='" & idbanklama & "' and Nomor='" & drow(i).Item("NoBukti") & "' and " & _
-                                "TotalLama='" & drow(i).Item("JumlahLama") & "' and Total='" & drow(i).Item("Jumlah") & "'"
-                            cmd = New SqlCommand(hapusvouhdedit, kon)
-                            cmd.ExecuteNonQuery()
-                        Else
-                            'ubah voudt ori
-                            Dim ubahvoudtori As String = _
-                                "update tbACVoucherDt set KodeAkun='" & drow(i).Item("KodeAkunLama") & "',Jumlah='" & drow(i).Item("JumlahLama") & "',KodeAkunLama='',JumlahLama='' " & _
-                                "where Nomor='" & drow(i).Item("NoBukti") & "' and " & _
-                                "KodeAkunLama='" & drow(i).Item("KodeAkunLama") & "' and JumlahLama='" & drow(i).Item("JumlahLama") & "' " & _
-                                "and KodeAkun='" & drow(i).Item("KodeAkun") & "' and Jumlah='" & drow(i).Item("Jumlah") & "' and NoUrut='" & drow(i).Item("NoUrutAkun") - 1 & "'"
-                            cmd = New SqlCommand(ubahvoudtori, kon)
-                            cmd.ExecuteNonQuery()
-
-                            'hapus voudt edit
-                            Dim hapusvoudtedit As String = _
-                                "delete from tbACVoucherDtEdit where KodeAkun='" & drow(i).Item("KodeAkun") & "' and KodeAkunLama='" & drow(i).Item("KodeAkunLama") & "' and Nomor='" & drow(i).Item("NoBukti") & "' and " & _
-                                "Jumlah='" & drow(i).Item("Jumlah") & "' and JumlahLama='" & drow(i).Item("JumlahLama") & "' and NoUrut='" & drow(i).Item("NoUrutAkun") - 1 & "'"
-                            cmd = New SqlCommand(hapusvoudtedit, kon)
-                            cmd.ExecuteNonQuery()
-                        End If
-                    End If
-                    'ubah jurnalori
                     Dim ubahjurnalori As String = _
-                        "update tbACJurnal set KodeAkun='" & drow(i).Item("KodeAkunLama") & "',Jumlah='" & drow(i).Item("JumlahLama") & "',KodeAkunLama='',JumlahLama='' where " & _
-                        "KodeAkun='" & drow(i).Item("KodeAkun") & "' and KodeAkunLama='" & drow(i).Item("KodeAkunLama") & "' and Jumlah='" & drow(i).Item("Jumlah") & "' and " & _
-                        "JumlahLama='" & drow(i).Item("JumlahLama") & "' and NoUrutAkun='" & drow(i).Item("NoUrutAkun") & "' and NoBukti='" & drow(i).Item("NoBukti") & "'"
+                        "update tbACKodeAkun set KodeAkun='" & drow(i).Item("KodeAkunLama") & "',KodeCompany='" & drow(i).Item("KodeCompanyLama") & "',IdKategori='" & drow(i).Item("IdKategoriLama") & "'," & _
+                        "Keterangan='" & drow(i).Item("KeteranganLama") & "',LevelAkun='" & drow(i).Item("LevelAkunLama") & "',DebetOrKredit='" & drow(i).Item(15) & "',StatusJurnal='" & drow(i).Item("StatusJurnalLama") & "'," & _
+                        "KodeAkunInduk='" & drow(i).Item("KodeAkunIndukLama") & "',KodeCabang='" & drow(i).Item("KodeCabang") & "' where KodeAkun='" & drow(i).Item("KodeAkun") & "'"
                     cmd = New SqlCommand(ubahjurnalori, kon)
                     cmd.ExecuteNonQuery()
-                    'hapus jurnal edit
-                    Dim hapusjurnaledit As String = _
-                        "delete from tbACJurnalEdit where KodeAkun='" & drow(i).Item("KodeAkun") & "' and KodeAkunLama='" & drow(i).Item("KodeAkunLama") & "' and " & _
-                        "NoBukti='" & drow(i).Item("NoBukti") & "' and Jumlah='" & drow(i).Item("Jumlah") & "' and JumlahLama='" & drow(i).Item("JumlahLama") & "'"
-                    cmd = New SqlCommand(hapusjurnaledit, kon)
+
+                    Dim hapuskodeedit As String = _
+                        "delete from tbACKodeAkunEdit where KodeAkun='" & drow(i).Item("KodeAkun") & "'"
+                    cmd = New SqlCommand(hapuskodeedit, kon)
                     cmd.ExecuteNonQuery()
                 End If
             Next

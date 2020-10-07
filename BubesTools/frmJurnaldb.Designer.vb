@@ -22,6 +22,7 @@ Partial Class frmJurnaldb
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmJurnaldb))
         Me.LayoutControl1 = New DevExpress.XtraLayout.LayoutControl()
+        Me.dBulan = New DevExpress.XtraEditors.DateEdit()
         Me.btnTambah = New DevExpress.XtraEditors.SimpleButton()
         Me.tJenis = New DevExpress.XtraEditors.TextEdit()
         Me.cJenis = New meCore.cMeButtonBrowser()
@@ -54,10 +55,11 @@ Partial Class frmJurnaldb
         Me.LayoutControlItem10 = New DevExpress.XtraLayout.LayoutControlItem()
         Me.LayoutControlItem13 = New DevExpress.XtraLayout.LayoutControlItem()
         Me.LayoutControlItem14 = New DevExpress.XtraLayout.LayoutControlItem()
-        Me.dBulan = New DevExpress.XtraEditors.DateEdit()
         Me.LayoutControlItem15 = New DevExpress.XtraLayout.LayoutControlItem()
         CType(Me.LayoutControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.LayoutControl1.SuspendLayout()
+        CType(Me.dBulan.Properties.CalendarTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dBulan.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.tJenis.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cJenis.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,8 +84,6 @@ Partial Class frmJurnaldb
         CType(Me.LayoutControlItem10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlItem13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlItem14, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dBulan.Properties.CalendarTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dBulan.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlItem15, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -110,6 +110,17 @@ Partial Class frmJurnaldb
         Me.LayoutControl1.Size = New System.Drawing.Size(813, 392)
         Me.LayoutControl1.TabIndex = 0
         Me.LayoutControl1.Text = "LayoutControl1"
+        '
+        'dBulan
+        '
+        Me.dBulan.EditValue = Nothing
+        Me.dBulan.Location = New System.Drawing.Point(60, 60)
+        Me.dBulan.Name = "dBulan"
+        Me.dBulan.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.dBulan.Properties.CalendarTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.dBulan.Size = New System.Drawing.Size(118, 20)
+        Me.dBulan.StyleController = Me.LayoutControl1
+        Me.dBulan.TabIndex = 21
         '
         'btnTambah
         '
@@ -456,17 +467,6 @@ Partial Class frmJurnaldb
         Me.LayoutControlItem14.TextSize = New System.Drawing.Size(0, 0)
         Me.LayoutControlItem14.TextVisible = False
         '
-        'dBulan
-        '
-        Me.dBulan.EditValue = Nothing
-        Me.dBulan.Location = New System.Drawing.Point(60, 60)
-        Me.dBulan.Name = "dBulan"
-        Me.dBulan.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
-        Me.dBulan.Properties.CalendarTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
-        Me.dBulan.Size = New System.Drawing.Size(118, 20)
-        Me.dBulan.StyleController = Me.LayoutControl1
-        Me.dBulan.TabIndex = 21
-        '
         'LayoutControlItem15
         '
         Me.LayoutControlItem15.Control = Me.dBulan
@@ -489,6 +489,8 @@ Partial Class frmJurnaldb
         Me.Text = "Jurnal DB"
         CType(Me.LayoutControl1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.LayoutControl1.ResumeLayout(False)
+        CType(Me.dBulan.Properties.CalendarTimeProperties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dBulan.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.tJenis.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cJenis.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridView1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -513,8 +515,6 @@ Partial Class frmJurnaldb
         CType(Me.LayoutControlItem10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlItem13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlItem14, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dBulan.Properties.CalendarTimeProperties, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dBulan.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlItem15, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

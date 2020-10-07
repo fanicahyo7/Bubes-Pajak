@@ -32,7 +32,7 @@ Public Class frmJurnalAdd
         tKeterangan.Properties.CharacterCasing = CharacterCasing.Upper
         'tKodeCabang1.Text = kodecompany
 
-        cKodeAkun.FirstInit(konekdbumue, "select KodeAkun,Keterangan from tbACKodeAkun where KodeCompany='" & kodecompany & "'", {tKeteranganAkun})
+        cKodeAkun.FirstInit(konekdbumue, "select KodeAkun,Keterangan from tbACKodeAkun where KodeCompany='" & kodecompany & "' and StatusJurnal='1'", {tKeteranganAkun})
         cNoBukti.FirstInit(konekdbumue, "select distinct NoBukti,Keterangan from tbACJurnal where left(NoBukti,3) = 'JPU' and KodeCompany='" & kodecompany & "' and SUBSTRING(nobukti,8,4)='" & Format(dTanggalBukti.EditValue, "yyMM") & "' order by NoBukti asc")
     End Sub
 
@@ -113,6 +113,7 @@ Public Class frmJurnalAdd
                 Dim cariidtransaksi As String = ""
                 Dim query As String = ""
                 Dim querycari As String = ""
+                Dim querycarijurnal As String = ""
                 Dim idbank As String = ""
 
                 Dim caridibank As String = _
@@ -153,7 +154,11 @@ Public Class frmJurnalAdd
                     "'" & tKeterangan.Text & "','','0','0','1'," & _
                     "'1','" & nobukti & "','" & DTOC(dTanggalBukti.Text, "/", False) & "','" & pubUserEntry & "','" & DTOC(Now, "/", True) & "')"
 
-                    querycari = "update tbACJurnal set FlagPosting='1', PostingDate='" & DTOC(Now, "/", True) & "' where " & _
+                    querycari = "update tbACJurnal set KodeAKunLama='" & cKodeAkun.Text & "', JumlahLama='" & sJumlah.EditValue & "' where " & _
+                        "KodeCompany='" & kodecompany & "' and NoBukti='" & nobukti & "' and TanggalBukti='" & DTOC(dTanggalBukti.Text, "/", False) & "' and " & _
+                        "KodeAkun='" & cKodeAkun.Text & "' and FlagPosting='0' and NoUrutAkun='1'"
+
+                    querycarijurnal = "select * from tbACJurnal where " & _
                         "KodeCompany='" & kodecompany & "' and NoBukti='" & nobukti & "' and TanggalBukti='" & DTOC(dTanggalBukti.Text, "/", False) & "' and " & _
                         "KodeAkun='" & cKodeAkun.Text & "' and FlagPosting='0' and NoUrutAkun='1'"
                 Else
@@ -188,27 +193,28 @@ Public Class frmJurnalAdd
                         "insert into tbACJurnalEdit (" & _
                         "KodeCompany,NoBukti,TanggalBukti,Tipe,KodeCabang," & _
                         "IdDepartemen,KodeAkun,NoUrutAkun,Keterangan,Jumlah," & _
-                        "DebetOrKredit,FlagPosting,PostingDate,IdTransaksi,UserEntry,DateTimeEntry," & _
+                        "DebetOrKredit,FlagPosting,IdTransaksi,UserEntry,DateTimeEntry," & _
                         "KodeAkunLama,JumlahLama," & _
-                        "FlagDelete,NamaAkunPajak,FlagPostingJurnalOri" & _
+                        "NamaAkunPajak,FlagPostingJurnalOri,New" & _
                         ") values (" & _
                         "'" & kodecompany & "','" & nobukti & "','" & DTOC(dTanggalBukti.Text, "/", False) & "','" & tipe & "','" & kodecompany & ".00'," & _
                         "'" & idbank & "','" & cKodeAkun.Text & "','" & nourutakun & "','" & tKeterangan.Text & "','" & sJumlah.EditValue & "'," & _
-                        "'" & dbtorkrdt & "','1','" & DTOC(Now, "/", True) & "','" & idtransaksi & "','" & pubUserEntry & "','" & DTOC(Now, "/", True) & "'," & _
+                        "'" & dbtorkrdt & "','0','" & idtransaksi & "','" & pubUserEntry & "','" & DTOC(Now, "/", True) & "'," & _
                         "'" & cKodeAkun.Text & "','" & sJumlah.EditValue & "'," & _
-                        "'0','" & tKeteranganAkun.Text & "','1')"
-                    'cmd = New SqlCommand(query2, kon)
-                    'cmd.ExecuteNonQuery()
+                        "'" & tKeteranganAkun.Text & "','0','1')"
+                    cmd = New SqlCommand(query2, kon)
+                    cmd.ExecuteNonQuery()
 
                     query = _
                         "insert into tbACJurnal (" & _
                         "KodeCompany,NoBukti,TanggalBukti,Tipe,KodeCabang," & _
                         "IdDepartemen,KodeAkun,NoUrutAkun,Keterangan,Jumlah," & _
-                        "DebetOrKredit,FlagPosting,PostingDate,IdTransaksi,UserEntry,DateTimeEntry" & _
-                        ") values (" & _
+                        "DebetOrKredit,FlagPosting,PostingDate,IdTransaksi,UserEntry,DateTimeEntry," & _
+                        "KodeAkunLama,JumlahLama) values (" & _
                         "'" & kodecompany & "','" & nobukti & "','" & DTOC(dTanggalBukti.Text, "/", False) & "','" & tipe & "','" & kodecompany & ".00'," & _
                         "'" & idbank & "','" & cKodeAkun.Text & "','" & nourutakun & "','" & tKeterangan.Text & "','" & sJumlah.EditValue & "'," & _
-                        "'" & dbtorkrdt & "','1','" & DTOC(Now, "/", True) & "','" & idtransaksi & "','" & pubUserEntry & "','" & DTOC(Now, "/", True) & "')"
+                        "'" & dbtorkrdt & "','0','" & DTOC(Now, "/", True) & "','" & idtransaksi & "','" & pubUserEntry & "','" & DTOC(Now, "/", True) & "'," & _
+                        "'" & cKodeAkun.Text & "','" & sJumlah.EditValue & "')"
                 End If
 
 
@@ -255,6 +261,32 @@ Public Class frmJurnalAdd
                 If cBuktiBaru.Checked = True Then
                     cmd = New SqlCommand(querycari, kon)
                     cmd.ExecuteNonQuery()
+
+                    cmd = New SqlCommand(querycarijurnal, kon)
+                    dr = cmd.ExecuteReader
+                    dr.Read()
+                    If dr.HasRows Then
+
+                        Dim datetimeentry As DateTime = dr!DateTimeEntry
+                        Dim tglbukti As DateTime = dr!TanggalBukti
+
+                        Dim query2 As String = _
+                            "insert into tbACJurnalEdit (" & _
+                            "KodeCompany,NoBukti,TanggalBukti,Tipe,KodeCabang," & _
+                            "IdDepartemen,KodeAkun,NoUrutAkun,Keterangan,Jumlah," & _
+                            "DebetOrKredit,FlagPosting,IdTransaksi,UserEntry,DateTimeEntry," & _
+                            "KodeAkunLama,JumlahLama," & _
+                            "NamaAkunPajak,FlagPostingJurnalOri,New" & _
+                            ") values (" & _
+                            "'" & dr!KodeCompany & "','" & dr!NoBukti & "','" & tglbukti.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!Tipe & "','" & dr!KodeCabang & "'," & _
+                            "'" & dr!IdDepartemen & "','" & dr!KodeAkun & "','" & dr!NoUrutAkun & "','" & dr!Keterangan & "','" & dr!Jumlah & "'," & _
+                            "'" & dr!DebetOrKredit & "','0','" & dr!IdTransaksi & "','" & dr!UserEntry & "','" & datetimeentry.ToString("yyyy-MM-dd hh:mm:ss") & "'," & _
+                            "'" & dr!KodeAkunLama & "','" & dr!JumlahLama & "'," & _
+                            "'" & tKeteranganAkun.Text & "','0','1')"
+                        dr.Close()
+                        cmd = New SqlCommand(query2, kon)
+                        cmd.ExecuteNonQuery()
+                    End If
                 End If
 
                 'Dim queryori As String = _
@@ -276,6 +308,7 @@ Public Class frmJurnalAdd
                 Me.Close()
             Catch ex As Exception
                 Pesan({"GAGAL SIMPAN DATA", "", "Err : " & ex.Message.ToString})
+                dr.Close()
             End Try
         End If
     End Sub

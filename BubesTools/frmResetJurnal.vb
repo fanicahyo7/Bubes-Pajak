@@ -31,7 +31,7 @@ Public Class frmResetJurnal
                 "(select Keterangan from tbACKodeAkun where KodeAkun= a.KodeAkunLama) as NamaAkun," & _
                 "case when DebetOrKredit='D' then JumlahLama else 0 end as DebetLama," & _
                 "case when DebetOrKredit='K' then JumlahLama else 0 end as KreditLama,NoUrutAkun,Jumlah,JumlahLama," & _
-                "case when FlagDelete='1' then 'DiHapus' else 'DiEdit' end as Keterangan " & _
+                "case when New='1' then 'DiTambah' else case when FlagDelete='1' then 'DiHapus' else 'DiEdit' end end as Keterangan " & _
                 "from tbACJurnalEdit a " & _
                 "where FlagPostingJurnalOri = '1' and KodeCompany='" & kodecompany & "' and month(a.TanggalBukti)='" & Format(tanggal, "MM") & "' and year(a.TanggalBukti)='" & Format(tanggal, "yyyy") & "'"
         dgData.FirstInit(query, {0.5, 1.5, 1, 1, 1.5, 1, 1, 1, 1.5, 1, 1, 0.8}, , {"Ambil"}, {"NoUrutAkun", "Jumlah", "JumlahLama"}, , , False)
@@ -50,7 +50,7 @@ Public Class frmResetJurnal
                         "(select Keterangan from tbACKodeAkun where KodeAkun= a.KodeAkunLama) as NamaAkun," & _
                         "case when DebetOrKredit='D' then JumlahLama else 0 end as DebetLama," & _
                         "case when DebetOrKredit='K' then JumlahLama else 0 end as KreditLama,NoUrutAkun,Jumlah,JumlahLama," & _
-                        "case when FlagDelete='1' then 'DiHapus' else 'DiEdit' end as Keterangan " & _
+                        "case when New='1' then 'DiTambah' else case when FlagDelete='1' then 'DiHapus' else 'DiEdit' end end as Keterangan " & _
                         "from tbACJurnalEdit a " & _
                         "where FlagPostingJurnalOri = '1' and KodeCompany='" & kodecompany & "' and month(a.TanggalBukti)='" & Format(tanggal, "MM") & "' and year(a.TanggalBukti)='" & Format(tanggal, "yyyy") & "'"
         Else
@@ -62,7 +62,7 @@ Public Class frmResetJurnal
                         "(select Keterangan from tbACKodeAkun where KodeAkun= a.KodeAkunLama) as NamaAkun," & _
                         "case when DebetOrKredit='D' then JumlahLama else 0 end as DebetLama," & _
                         "case when DebetOrKredit='K' then JumlahLama else 0 end as KreditLama,NoUrutAkun,Jumlah,JumlahLama," & _
-                        "case when FlagDelete='1' then 'DiHapus' else 'DiEdit' end as Keterangan " & _
+                        "case when New='1' then 'DiTambah' else case when FlagDelete='1' then 'DiHapus' else 'DiEdit' end end as Keterangan " & _
                         "from tbACJurnalEdit a " & _
                         "where FlagPostingJurnalOri = '1' and KodeCompany='" & kodecompany & "' and month(a.TanggalBukti)='" & Format(tanggal, "MM") & "' and year(a.TanggalBukti)='" & Format(tanggal, "yyyy") & "'"
         End If
@@ -83,7 +83,24 @@ Public Class frmResetJurnal
             MsgBox("Pilih Data Yang Akan DiKembalikan Dulu!", vbCritical + vbOKOnly, "Peringatan")
         Else
             For i = 0 To drow.Length - 1
-                If drow(i).Item("Keterangan") = "DiHapus" Then
+
+                If drow(i).Item("Keterangan") = "DiTambah" Then
+                    'hapus acjurnal
+                    Dim hpsjrnal As String = _
+                        "delete from tbACJurnal where NoBukti='" & drow(i).Item("NoBukti") & "' and KodeAkun='" & drow(i).Item("KodeAkun") & "' " & _
+                        "and KodeAkunLama='" & drow(i).Item("KodeAkunLama") & "' and Jumlah='" & drow(i).Item("Jumlah") & "' and " & _
+                        "JumlahLama='" & drow(i).Item("JumlahLama") & "' and NoUrutAkun='" & drow(i).Item("NoUrutAkun") & "'"
+                    cmd = New SqlCommand(hpsjrnal, kon)
+                    cmd.ExecuteNonQuery()
+
+                    'hapus acjurnaledit
+                    Dim hpsjrnledit As String = _
+                        "delete from tbACJurnalEdit where NoBukti='" & drow(i).Item("NoBukti") & "' and KodeAkun='" & drow(i).Item("KodeAkun") & "' and KodeAkunLama='" & drow(i).Item("KodeAkunLama") & "' and " & _
+                        "Jumlah='" & drow(i).Item("Jumlah") & "' and JumlahLama='" & drow(i).Item("JumlahLama") & "'"
+                    cmd = New SqlCommand(hpsjrnledit, kon)
+                    cmd.ExecuteNonQuery()
+
+                ElseIf drow(i).Item("Keterangan") = "DiHapus" Then
                     If Not Strings.Left(drow(i).Item("NoBukti"), 3) = "MEM" Or Not Strings.Left(drow(i).Item("NoBukti"), 3) = "JPU" Then
                         If drow(i).Item("NoUrutAkun") = "1" Then
                             'hd
@@ -161,7 +178,7 @@ Public Class frmResetJurnal
                     Dim postingdate As DateTime = dr!PostingDate
                     Dim tglbukti As DateTime = dr!TanggalBukti
                     Dim tambahjurnal As String = _
-                         "insert into tbACJurnal (KodeCompany,NoBukti,TanggalBukti,Tipe,KodeCabang," & _
+                        "insert into tbACJurnal (KodeCompany,NoBukti,TanggalBukti,Tipe,KodeCabang," & _
                         "IdDepartemen,KodeAkun,NoUrutAkun,Keterangan,Jumlah," & _
                         "DebetOrKredit,FlagPosting,PostingDate,IdTransaksi,UserEntry," & _
                         "DateTimeEntry,NoRecord,TadaID) values (" & _

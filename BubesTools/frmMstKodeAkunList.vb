@@ -7,6 +7,12 @@ Public Class frmMstKodeAkunList
     End Sub
 
     Private Sub cJenis_EditValueChanged(sender As Object, e As EventArgs) Handles cJenis.EditValueChanged
+        'If cJenis.Text = "UE" Then
+        '    tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUE;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
+        'Else
+        '    tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUM;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
+        'End If
+
         koneksi(tJenis.Text)
         cCompany.FirstInit(tJenis.Text, "Select KodeCompany,Nama from tbGNCompany", {tNama}, , , , , , {0.5, 1})
     End Sub
@@ -38,7 +44,7 @@ Public Class frmMstKodeAkunList
         Dim query As String = _
             "select a.KodeAkun,a.Keterangan,a.KodeAkunInduk,a.LevelAkun,a.DebetOrKredit as [D / K],a.StatusJurnal,a.KodeCabang,b.KodeAkunLama from tbACKodeAkun a " & _
             "left join tbACKodeAkunEdit b on a.KodeAkun = b.KodeAkunLama " & _
-            "where a.KodeAkun like '" & cCompany.Text & ".%' and a.IdKategori='" & dgKategori.GetRowCellValue(dgKategori.FocusedRowHandle, "IdKategori") & "' "
+            "where a.KodeAkun like '" & cCompany.Text & ".%' and a.IdKategori='" & dgKategori.GetRowCellValue(dgKategori.FocusedRowHandle, "IdKategori") & "'"
 
         'da = New SqlDataAdapter(query, kon)
         'Dim ds As New DataSet
@@ -126,9 +132,13 @@ Public Class frmMstKodeAkunList
     End Sub
 
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
-        Using xx As New frmResetKodeAkun(tJenis.Text, cCompany.Text)
-            xx.ShowDialog(Me)
-            editdgkodeakun()
-        End Using
+        If cCompany.Text = "" Or cJenis.Text = "" Then
+            MsgBox("Data Belum Lengkap!", vbCritical + vbOKOnly, "Peringatan")
+        Else
+            Using xx As New frmResetKodeAkun(tJenis.Text, cCompany.Text)
+                xx.ShowDialog(Me)
+                editdgkodeakun()
+            End Using
+        End If
     End Sub
 End Class
