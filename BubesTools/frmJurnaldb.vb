@@ -22,17 +22,17 @@ Public Class frmJurnaldb
 
         dBulan.EditValue = Now
 
-        cJenis.FirstInit(PubConnStr, "SELECT Jenis, ConnStr FROM mstUnitBukbes", {tJenis}, , , , , , , {"ConnStr"})
-        'cJenis.FirstInit(PubConnStr, "SELECT Jenis, ConnStr FROM mstUnitBukbes", , , , , , , , {"ConnStr"})
+        'cJenis.FirstInit(PubConnStr, "SELECT Jenis, ConnStr FROM mstUnitBukbes", {tJenis}, , , , , , , {"ConnStr"})
+        cJenis.FirstInit(PubConnStr, "SELECT Jenis, ConnStr FROM mstUnitBukbes", , , , , , , , {"ConnStr"})
 
     End Sub
 
     Private Sub cJenis_EditValueChanged(sender As Object, e As EventArgs) Handles cJenis.EditValueChanged
-        'If cJenis.Text = "UE" Then
-        '    tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUE;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
-        'Else
-        '    tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUM;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
-        'End If
+        If cJenis.Text = "UE" Then
+            tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUE;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
+        Else
+            tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUM;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
+        End If
 
         koneksi(tJenis.Text)
         cCompany.FirstInit(tJenis.Text, "Select KodeCompany,Nama from tbGNCompany", {tNama}, , , , , , {0.5, 1})
@@ -53,8 +53,8 @@ Public Class frmJurnaldb
         "select a.TanggalBukti,CONVERT(varchar(10),month(a.TanggalBukti)) as Bulan,CONVERT(varchar(10),year(a.TanggalBukti)) as Tahun,b.Nama as NamaLegal," & _
         "case when New='1' then '' else case when FlagPostingJurnalOri='1' then d.KodeAkunLama else a.KodeAkun end end as KodeAkun," & _
         "case when New='1' then '' else (select Keterangan from tbACKodeAkun where kodeakun=(case when d.KodeAkunLama is not null then d.KodeAkunLama else a.KodeAkun end)) end as NamaAkun," & _
-        "case when FlagPostingJurnalOri='1' then d.KodeAkun else a.KodeAkun end as KodeAkunPajak," & _
-        "case when d.NamaAkunPajak is not null then d.NamaAkunPajak else (select Keterangan from tbACKodeAkun where kodeakun=(case when d.KodeAkunLama is not null then d.KodeAkun else a.KodeAkun end)) end as NamaAkunPajak," & _
+        "case when FlagPostingJurnalOri is not null then d.KodeAkun else a.KodeAkun end as KodeAkunPajak," & _
+        "(select Keterangan from tbACKodeAkun where kodeakun=case when FlagPostingJurnalOri is not null then d.KodeAkun else a.KodeAkun end) as NamaAkunPajak," & _
         "a.NoBukti, a.Keterangan, " & _
         "DebetInternal = case when New='1' then cast(0 as numeric(18)) else " & _
         "case when a.DebetOrKredit = 'D' then case when d.JumlahLama is not null then d.JumlahLama else a.Jumlah End else cast(0 as numeric(18)) end end," & _
@@ -98,6 +98,7 @@ Public Class frmJurnaldb
         "left join tbGNCompany b on b.KodeCompany = a.KodeCompany " & _
         "left join tbACKodeAkun c on a.KodeAkun = c.KodeAkun " & _
         "left join tbACJurnalEdit d on a.KodeAkunLama = d.KodeAkunLama and a.NoBukti=d.NoBukti and a.JumlahLama = d.JumlahLama and a.NoUrutAkun =d.NoUrutAkun and a.KodeCompany=d.KodeCompany " & _
+        "left join tbACKodeAkunEdit e on a.KodeAkun = e.KodeAkun " & _
         "where substring(a.KodeAkun,1,2)='" & cCompany.Text & "' and month(a.TanggalBukti)='" & Format(dBulan.EditValue, "MM") & "' and year(a.TanggalBukti)='" & Format(dBulan.EditValue, "yyyy") & "'" & _
         "and (d.FlagDelete = 0 or d.FlagDelete is null) " & _
         "order by KodeAkun,TanggalBukti"

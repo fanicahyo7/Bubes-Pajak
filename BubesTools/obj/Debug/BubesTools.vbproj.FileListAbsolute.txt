@@ -73,3 +73,27 @@ D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.pdb
 D:\Bubes v2\BubesTools\BubesTools\bin\Debug\BubesTools.pdb
 D:\Bubes v2\BubesTools\BubesTools\bin\Debug\BubesTools.xml
 D:\Bubes v2\BubesTools\BubesTools\obj\Debug\BubesTools.vbprojResolveAssemblyReference.cache
+D:\Bubes-Pajak\BubesTools\bin\Debug\BubesTools.exe.config
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.exe
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.xml
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.pdb
+D:\Bubes-Pajak\BubesTools\bin\Debug\BubesTools.exe
+D:\Bubes-Pajak\BubesTools\bin\Debug\BubesTools.pdb
+D:\Bubes-Pajak\BubesTools\bin\Debug\BubesTools.xml
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.vbprojResolveAssemblyReference.cache
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.frmJurnal.resources
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.frmHistoryDelete.resources
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.frmJurnalAdd.resources
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.frmLaporanJurnaldb.resources
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.frmJurnaldb.resources
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.frmJurnalDetail.resources
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.frmBubesEdit.resources
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.frmMenu.resources
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.frmMstKodeAkun.resources
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.frmMstKodeAkunList.resources
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.frmResetKodeAkun.resources
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.frmResetJurnal.resources
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.Resources.resources
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.XtraForm1.resources
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.vbproj.GenerateResource.Cache
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.exe.licenses
