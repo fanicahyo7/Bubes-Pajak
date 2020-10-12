@@ -51,7 +51,7 @@ Public Class frmJurnaldb
         Dim data As String = _
         "select a.TanggalBukti,CONVERT(varchar(10),month(a.TanggalBukti)) as Bulan,CONVERT(varchar(10),year(a.TanggalBukti)) as Tahun,b.Nama as NamaLegal," & _
         "case when New='1' then '' else case when FlagPostingJurnalOri='1' then d.KodeAkunLama else a.KodeAkun end end as KodeAkun," & _
-        "case when New='1' then '' else (select Keterangan from tbACKodeAkun where kodeakun=(case when d.KodeAkunLama is not null then d.KodeAkunLama else a.KodeAkun end)) end as NamaAkun," & _
+        "case when New='1' then '' else case when e.KodeAkun is null then (select Keterangan from tbACKodeAkun where kodeakun=(case when d.KodeAkunLama is not null then d.KodeAkunLama else a.KodeAkun end)) else e.KeteranganLama end end as NamaAkun," & _
         "case when FlagPostingJurnalOri is not null then d.KodeAkun else a.KodeAkun end as KodeAkunPajak," & _
         "(select Keterangan from tbACKodeAkun where kodeakun=case when FlagPostingJurnalOri is not null then d.KodeAkun else a.KodeAkun end) as NamaAkunPajak," & _
         "a.NoBukti, a.Keterangan, " & _
@@ -97,7 +97,7 @@ Public Class frmJurnaldb
         "left join tbGNCompany b on b.KodeCompany = a.KodeCompany " & _
         "left join tbACKodeAkun c on a.KodeAkun = c.KodeAkun " & _
         "left join tbACJurnalEdit d on a.KodeAkunLama = d.KodeAkunLama and a.NoBukti=d.NoBukti and a.JumlahLama = d.JumlahLama and a.NoUrutAkun =d.NoUrutAkun and a.KodeCompany=d.KodeCompany " & _
-        "left join tbACKodeAkunEdit e on a.KodeAkun = e.KodeAkun " & _
+        "left join tbACKodeAkunEdit e on a.KodeAkun = e.KodeAkunLama or a.KodeAkunLama = e.KodeAkun " & _
         "where substring(a.KodeAkun,1,2)='" & cCompany.Text & "' and month(a.TanggalBukti)='" & Format(dBulan.EditValue, "MM") & "' and year(a.TanggalBukti)='" & Format(dBulan.EditValue, "yyyy") & "'" & _
         "and (d.FlagDelete = 0 or d.FlagDelete is null) " & _
         "order by KodeAkun,TanggalBukti"
