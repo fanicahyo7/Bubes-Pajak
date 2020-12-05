@@ -533,17 +533,35 @@ Public Class frmJurnaldb
                                         cmd = New SqlCommand(caridata, kon)
                                         dr = cmd.ExecuteReader()
                                         dr.Read()
-                                        Dim datetimeentry As DateTime = dr!DateTimeEntry
-                                        Dim datetimeupdate As DateTime = dr!DateTimeUpdate
+
+                                       
+                                        Dim datetimeentry As DateTime
+                                        Dim stringdateenrty1 As String = ""
+                                        Dim stringdateentry2 As String = ""
+                                        If Not IsDBNull(dr!DateTimeEntry) Then
+                                            datetimeentry = dr!DateTimeEntry
+                                            stringdateenrty1 = ",DateTimeEntry"
+                                            stringdateentry2 = ",'" & datetimeentry.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                                        End If
+
+                                        Dim datetimeupdate As DateTime
+                                        Dim stringdateupdate1 As String = ""
+                                        Dim stringdateupdate2 As String = ""
+                                        If Not IsDBNull(dr!DateTimeUpdate) Then
+                                            datetimeupdate = dr!DateTimeUpdate
+                                            stringdateupdate1 = ",DateTimeUpdate"
+                                            stringdateupdate2 = ",'" & datetimeupdate.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                                        End If
+
                                         'insert
                                         querydt = _
                                             "insert into tbACVoucherDtEdit (Nomor,NoUrut,KodeAkun,KodeCabang,IdDepartemen," & _
-                                            "Keterangan,Jumlah,Saldo,UserEntry,DateTimeEntry," & _
-                                            "UserUpdate,DateTimeUpdate,NoRecord,Cek,TadaID," & _
+                                            "Keterangan,Jumlah,Saldo,UserEntry" & stringdateenrty1 & "," & _
+                                            "UserUpdate" & stringdateupdate1 & ",NoRecord,Cek,TadaID," & _
                                             "FlagDelete,JumlahLama,KodeAkunLama,FlagPostingOri) values (" & _
                                             "'" & dr!Nomor & "','" & dr!NoUrut & "','" & kodeakun & "','" & dr!KodeCabang & "','" & dr!IdDepartemen & "'," & _
-                                            "'" & dr!Keterangan & "','" & jml & "','" & dr!Saldo & "','" & dr!UserEntry & "','" & datetimeentry.ToString("yyyy-MM-dd hh:mm:ss") & "'," & _
-                                            "'" & dr!UserUpdate & "','" & datetimeupdate.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!NoRecord & "','" & dr!Cek & "','" & dr!TadaID & "'," & _
+                                            "'" & dr!Keterangan & "','" & jml & "','" & dr!Saldo & "','" & dr!UserEntry & "'" & stringdateentry2 & "," & _
+                                            "'" & dr!UserUpdate & "'" & stringdateupdate2 & ",'" & dr!NoRecord & "','" & dr!Cek & "','" & dr!TadaID & "'," & _
                                             "'0','" & dr!Jumlah & "','" & dr!KodeAkun & "','0')"
                                         dr.Close()
                                     End If
