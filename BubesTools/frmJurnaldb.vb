@@ -322,19 +322,44 @@ Public Class frmJurnaldb
                             cmd = New SqlCommand(carivoucherHd, kon)
                             dr = cmd.ExecuteReader
                             dr.Read()
-                            Dim datetimeentryhd As DateTime = dr!DateTimeEntry
-                            Dim datetimeupdatehd As DateTime = dr!DateTimeUpdate
+
+                            Dim datetimeentryhd As DateTime
+                            Dim stringdateenrtyhd1 As String = ""
+                            Dim stringdateentryhd2 As String = ""
+                            If Not IsDBNull(dr!DateTimeEntry) Then
+                                datetimeentryhd = dr!DateTimeEntry
+                                stringdateenrtyhd1 = ",DateTimeEntry"
+                                stringdateentryhd2 = ",'" & datetimeentryhd.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                            End If
+
                             Dim tglhd As DateTime = dr!Tanggal
+                            Dim stringtglhd1 As String = ""
+                            Dim stringtglhd2 As String = ""
+                            If Not IsDBNull(dr!Tanggal) Then
+                                tglhd = dr!Tanggal
+                                stringtglhd1 = ",Tanggal"
+                                stringtglhd2 = ",'" & tglhd.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                            End If
+
+                            Dim datetimeupdatehd As DateTime
+                            Dim stringdateupdatehd1 As String = ""
+                            Dim stringdateupdatehd2 As String = ""
+                            If Not IsDBNull(dr!DateTimeUpdate) Then
+                                datetimeupdatehd = dr!DateTimeUpdate
+                                stringdateupdatehd1 = ",DateTimeUpdate"
+                                stringdateupdatehd2 = ",'" & datetimeupdatehd.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                            End If
+
                             Dim querysimpanvoucherhd As String = _
-                                "insert into tbACVoucherHdEdit (Nomor,Tanggal,KodeCompany,IdBank,FlagTransaksi," & _
+                                "insert into tbACVoucherHdEdit (Nomor" & stringtglhd1 & ",KodeCompany,IdBank,FlagTransaksi," & _
                                 "Keterangan1,Keterangan,Total,NoCekBG,BankCekBG," & _
                                 "FlagTunai,FlagValidasi,FlagPosting,Catatan," & _
-                                "UserEntry,DateTimeEntry,UserUpdate,DateTimeUpdate,NoUrut," & _
+                                "UserEntry" & stringdateenrtyhd1 & ",UserUpdate" & stringdateupdatehd1 & ",NoUrut," & _
                                 "cek,TadaID,NoRef,FlagDelete,FlagPostingOri) values (" & _
-                                "'" & dr!Nomor & "','" & tglhd.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!KodeCompany & "','" & idbanklama & "','" & dr!FlagTransaksi & "'," & _
+                                "'" & dr!Nomor & "'" & stringtglhd2 & ",'" & dr!KodeCompany & "','" & idbanklama & "','" & dr!FlagTransaksi & "'," & _
                                 "'" & dr!Keterangan1 & "','" & dr!Keterangan & "','" & dr!Total & "','" & dr!NoCekBG & "','" & dr!BankCekBG & "'," & _
                                 "'" & dr!FlagTunai & "','" & dr!FlagValidasi & "','" & dr!FlagPosting & "','" & dr!Catatan & "'," & _
-                                "'" & dr!UserEntry & "','" & datetimeentryhd.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!UserUpdate & "','" & datetimeupdatehd.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!NoUrut & "'," & _
+                                "'" & dr!UserEntry & "'" & stringdateentryhd2 & ",'" & dr!UserUpdate & "'" & stringdateupdatehd2 & ",'" & dr!NoUrut & "'," & _
                                 "'" & dr!cek & "','" & dr!TadaID & "','" & dr!NoRef & "','1','0')"
                             ' "cek,TadaID,NoRef,IdBankLama,TotalLama,FlagDelete,FlagPostingOri) values (" & _
                             '"'" & dr!cek & "','" & dr!TadaID & "','" & dr!NoRef & "','" & idbanklama & "','" & dr!Total & "','1','0')"
@@ -347,16 +372,33 @@ Public Class frmJurnaldb
                             cmd = New SqlCommand(carivoucherDt, kon)
                             dr = cmd.ExecuteReader
                             dr.Read()
-                            Dim datetimeentrydt As DateTime = dr!DateTimeEntry
-                            Dim datetimeupdatedt As DateTime = dr!DateTimeUpdate
+
+                            Dim datetimeentrydt As DateTime
+                            Dim stringdateenrtydt1 As String = ""
+                            Dim stringdateentrydt2 As String = ""
+                            If Not IsDBNull(dr!DateTimeEntry) Then
+                                datetimeentrydt = dr!DateTimeEntry
+                                stringdateenrtydt1 = ",DateTimeEntry"
+                                stringdateentrydt2 = ",'" & datetimeentrydt.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                            End If
+
+                            Dim datetimeupdatedt As DateTime
+                            Dim stringdateupdatedt1 As String = ""
+                            Dim stringdateupdatedt2 As String = ""
+                            If Not IsDBNull(dr!DateTimeUpdate) Then
+                                datetimeupdatedt = dr!DateTimeUpdate
+                                stringdateupdatedt1 = ",DateTimeUpdate"
+                                stringdateupdatedt2 = ",'" & datetimeupdatedt.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                            End If
+
                             Dim simpanvoucherdt As String = _
                                 "insert into tbACVoucherDtEdit (Nomor,NoUrut,KodeAkun,KodeCabang,IdDepartemen," & _
-                                "Keterangan,Jumlah,Saldo,UserEntry,DateTimeEntry," & _
-                                "UserUpdate,DateTimeUpdate,NoRecord,Cek,TadaID," & _
+                                "Keterangan,Jumlah,Saldo,UserEntry" & stringdateenrtydt1 & "," & _
+                                "UserUpdate" & stringdateupdatedt1 & ",NoRecord,Cek,TadaID," & _
                                 "FlagPostingOri,FlagDelete) values (" & _
                                 "'" & dr!Nomor & "','" & dr!NoUrut & "','" & dr!KodeAkun & "','" & dr!KodeCabang & "','" & dr!IdDepartemen & "'," & _
-                                "'" & dr!Keterangan & "','" & dr!Jumlah & "','" & dr!Saldo & "','" & dr!UserEntry & "','" & datetimeentrydt.ToString("yyyy-MM-dd hh:mm:ss") & "'," & _
-                                "'" & dr!UserUpdate & "','" & datetimeupdatedt.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!NoRecord & "','" & dr!Cek & "','" & dr!TadaID & "'," & _
+                                "'" & dr!Keterangan & "','" & dr!Jumlah & "','" & dr!Saldo & "','" & dr!UserEntry & "'" & stringdateentrydt2 & "," & _
+                                "'" & dr!UserUpdate & "'" & stringdateupdatedt2 & ",'" & dr!NoRecord & "','" & dr!Cek & "','" & dr!TadaID & "'," & _
                                 "'0','1')"
                             '"KodeAkunLama,JumlahLama,FlagPostingOri,FlagDelete) values (" & _
                             '"'" & dr!KodeAkun & "','" & dr!Jumlah & "','0','1')"
@@ -372,19 +414,43 @@ Public Class frmJurnaldb
                     cmd = New SqlCommand(caridata, kon)
                     dr = cmd.ExecuteReader
                     dr.Read()
-                    Dim datetimeentry As DateTime = dr!DateTimeEntry
-                    Dim postingdate As DateTime = dr!PostingDate
-                    Dim tglbukti As DateTime = dr!TanggalBukti
+
+                    Dim datetimeentryacjurnal As DateTime
+                    Dim stringdateentryacjurnal1 As String = ""
+                    Dim stringdateentryacjurnal2 As String = ""
+                    If Not IsDBNull(dr!DateTimeEntry) Then
+                        datetimeentryacjurnal = dr!DateTimeEntry
+                        stringdateentryacjurnal1 = ",DateTimeEntry"
+                        stringdateentryacjurnal2 = ",'" & datetimeentryacjurnal.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                    End If
+
+                    Dim postingdate As DateTime
+                    Dim stringpostingdate1 As String = ""
+                    Dim stringpostingdate2 As String = ""
+                    If Not IsDBNull(dr!PostingDate) Then
+                        postingdate = dr!PostingDate
+                        stringpostingdate1 = ",PostingDate"
+                        stringpostingdate2 = ",'" & postingdate.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                    End If
+
+                    Dim tglbukti As DateTime
+                    Dim stringtglbukti1 As String = ""
+                    Dim stringtglbukti2 As String = ""
+                    If Not IsDBNull(dr!TanggalBukti) Then
+                        tglbukti = dr!TanggalBukti
+                        stringtglbukti1 = ",TanggalBukti"
+                        stringtglbukti2 = ",'" & tglbukti.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                    End If
 
                     query = _
-                        "insert into tbACJurnalEdit (KodeCompany,NoBukti,TanggalBukti,Tipe,KodeCabang," & _
+                        "insert into tbACJurnalEdit (KodeCompany,NoBukti" & stringtglbukti1 & ",Tipe,KodeCabang," & _
                         "IdDepartemen,KodeAkun,NoUrutAkun,Keterangan,Jumlah," & _
-                        "DebetOrKredit,FlagPosting,PostingDate,IdTransaksi,UserEntry," & _
-                        "DateTimeEntry,NoRecord,TadaID,KodeAkunLama,JumlahLama,NamaAkunPajak,FlagDelete) values (" & _
-                        "'" & dr!KodeCompany & "','" & dr!NoBukti & "','" & tglbukti.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!Tipe & "','" & dr!KodeCabang & "'," & _
+                        "DebetOrKredit,FlagPosting" & stringpostingdate1 & ",IdTransaksi,UserEntry" & _
+                        "" & stringdateentryacjurnal1 & ",NoRecord,TadaID,KodeAkunLama,JumlahLama,NamaAkunPajak,FlagDelete) values (" & _
+                        "'" & dr!KodeCompany & "','" & dr!NoBukti & "'" & stringtglbukti2 & ",'" & dr!Tipe & "','" & dr!KodeCabang & "'," & _
                         "'" & dr!IdDepartemen & "','" & dr!KodeAkun & "','" & dr!NoUrutAkun & "','" & dr!Keterangan & "','" & dr!Jumlah & "'," & _
-                        "'" & dr!DebetOrKredit & "','" & dr!FlagPosting & "','" & postingdate.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!IdTransaksi & "','" & dr!UserEntry & "'," & _
-                        "'" & datetimeentry.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!NoRecord & "','" & dr!TadaID & "','" & dr!KodeAkun & "','" & dr!Jumlah & "','" & dgJurnal.GetRowCellValue(dgJurnal.FocusedRowHandle, "NamaAkunPajak") & "','1')"
+                        "'" & dr!DebetOrKredit & "','" & dr!FlagPosting & "'" & stringpostingdate2 & ",'" & dr!IdTransaksi & "','" & dr!UserEntry & "'" & _
+                        "" & stringdateentryacjurnal2 & ",'" & dr!NoRecord & "','" & dr!TadaID & "','" & dr!KodeAkun & "','" & dr!Jumlah & "','" & dgJurnal.GetRowCellValue(dgJurnal.FocusedRowHandle, "NamaAkunPajak") & "','1')"
                     '"IdDepartemen,KodeAkun,NoUrutAkun,Keterangan,Jumlah," & _
                     '"'" & dr!IdDepartemen & "','" & kodeakun & "','" & dr!NoUrutAkun & "','" & dr!Keterangan & "','" & jml & "'," & _
                     '"DateTimeEntry,NoRecord,TadaID,KodeAkunLama,JumlahLama,NamaAkunPajak,FlagDelete) values (" & _
@@ -493,20 +559,45 @@ Public Class frmJurnaldb
                                         cmd = New SqlCommand(caridata, kon)
                                         dr = cmd.ExecuteReader()
                                         dr.Read()
-                                        Dim datetimeentry As DateTime = dr!DateTimeEntry
-                                        Dim tgl As DateTime = dr!Tanggal
-                                        Dim datetimeupdate As DateTime = dr!DateTimeUpdate
+
+                                        Dim datetimeentryhdedit As DateTime
+                                        Dim stringdateenrtyhdedit1 As String = ""
+                                        Dim stringdateentryhdedit2 As String = ""
+                                        If Not IsDBNull(dr!DateTimeEntry) Then
+                                            datetimeentryhdedit = dr!DateTimeEntry
+                                            stringdateenrtyhdedit1 = ",DateTimeEntry"
+                                            stringdateentryhdedit2 = ",'" & datetimeentryhdedit.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                                        End If
+
+                                        Dim tgl As DateTime
+                                        Dim stringtanggal1 As String = ""
+                                        Dim stringtanggal2 As String = ""
+                                        If Not IsDBNull(dr!Tanggal) Then
+                                            tgl = dr!Tanggal
+                                            stringtanggal1 = ",Tanggal"
+                                            stringtanggal2 = ",'" & tgl.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                                        End If
+
+                                        Dim datetimeupdatehdedit As DateTime
+                                        Dim stringdateupdatehdedit1 As String = ""
+                                        Dim stringdateupdatehdedit2 As String = ""
+                                        If Not IsDBNull(dr!DateTimeUpdate) Then
+                                            datetimeupdatehdedit = dr!DateTimeUpdate
+                                            stringdateupdatehdedit1 = ",DateTimeUpdate"
+                                            stringdateupdatehdedit2 = ",'" & datetimeupdatehdedit.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                                        End If
+
                                         'insert
                                         queryhd = _
-                                            "insert into tbACVoucherHdEdit (Nomor,Tanggal,KodeCompany,IdBank,FlagTransaksi," & _
+                                            "insert into tbACVoucherHdEdit (Nomor" & stringtanggal1 & ",KodeCompany,IdBank,FlagTransaksi," & _
                                             "Keterangan1,Keterangan,Total,NoCekBG,TglJTCekBG," & _
-                                            "FlagTunai,FlagValidasi,FlagPosting,Catatan,UserEntry," & _
-                                            "DateTimeEntry,UserUpdate,DateTimeUpdate,NoUrut,cek," & _
+                                            "FlagTunai,FlagValidasi,FlagPosting,Catatan,UserEntry" & _
+                                            "" & stringdateenrtyhdedit1 & ",UserUpdate" & stringdateupdatehdedit1 & ",NoUrut,cek," & _
                                             "TadaID,NoRef,FlagDelete,IdBankLama,TotalLama,FlagPostingOri) values (" & _
-                                            "'" & dr!Nomor & "','" & tgl.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!KodeCompany & "','" & idbankbaru & "','" & dr!FlagTransaksi & "'," & _
+                                            "'" & dr!Nomor & "'" & stringtanggal2 & ",'" & dr!KodeCompany & "','" & idbankbaru & "','" & dr!FlagTransaksi & "'," & _
                                             "'" & dr!Keterangan1 & "','" & dr!Keterangan & "','" & jml & "','" & dr!NoCekBG & "','" & dr!TglJTCekBG & "'," & _
-                                            "'" & dr!FlagTunai & "','" & dr!FlagValidasi & "','" & dr!FlagPosting & "','" & dr!Catatan & "','" & dr!UserEntry & "'," & _
-                                            "'" & datetimeentry.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!UserUpdate & "','" & datetimeupdate.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!NoUrut & "','" & dr!cek & "'," & _
+                                            "'" & dr!FlagTunai & "','" & dr!FlagValidasi & "','" & dr!FlagPosting & "','" & dr!Catatan & "','" & dr!UserEntry & "'" & _
+                                            "" & stringdateentryhdedit2 & ",'" & dr!UserUpdate & "'" & stringdateupdatehdedit2 & ",'" & dr!NoUrut & "','" & dr!cek & "'," & _
                                             "'" & dr!TadaID & "','" & dr!NoRef & "','0','" & idbank & "','" & dr!Total & "','0')"
                                         dr.Close()
                                     End If
@@ -534,34 +625,33 @@ Public Class frmJurnaldb
                                         dr = cmd.ExecuteReader()
                                         dr.Read()
 
-                                       
-                                        Dim datetimeentry As DateTime
-                                        Dim stringdateenrty1 As String = ""
-                                        Dim stringdateentry2 As String = ""
+                                        Dim datetimeentrydtedit As DateTime
+                                        Dim stringdateenrtydtedit1 As String = ""
+                                        Dim stringdateentrydtedit2 As String = ""
                                         If Not IsDBNull(dr!DateTimeEntry) Then
-                                            datetimeentry = dr!DateTimeEntry
-                                            stringdateenrty1 = ",DateTimeEntry"
-                                            stringdateentry2 = ",'" & datetimeentry.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                                            datetimeentrydtedit = dr!DateTimeEntry
+                                            stringdateenrtydtedit1 = ",DateTimeEntry"
+                                            stringdateentrydtedit2 = ",'" & datetimeentrydtedit.ToString("yyyy-MM-dd hh:mm:ss") & "'"
                                         End If
 
-                                        Dim datetimeupdate As DateTime
-                                        Dim stringdateupdate1 As String = ""
-                                        Dim stringdateupdate2 As String = ""
+                                        Dim datetimeupdatedtedit As DateTime
+                                        Dim stringdateupdatedtedit1 As String = ""
+                                        Dim stringdateupdatedtedit2 As String = ""
                                         If Not IsDBNull(dr!DateTimeUpdate) Then
-                                            datetimeupdate = dr!DateTimeUpdate
-                                            stringdateupdate1 = ",DateTimeUpdate"
-                                            stringdateupdate2 = ",'" & datetimeupdate.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                                            datetimeupdatedtedit = dr!DateTimeUpdate
+                                            stringdateupdatedtedit1 = ",DateTimeUpdate"
+                                            stringdateupdatedtedit2 = ",'" & datetimeupdatedtedit.ToString("yyyy-MM-dd hh:mm:ss") & "'"
                                         End If
 
                                         'insert
                                         querydt = _
                                             "insert into tbACVoucherDtEdit (Nomor,NoUrut,KodeAkun,KodeCabang,IdDepartemen," & _
-                                            "Keterangan,Jumlah,Saldo,UserEntry" & stringdateenrty1 & "," & _
-                                            "UserUpdate" & stringdateupdate1 & ",NoRecord,Cek,TadaID," & _
+                                            "Keterangan,Jumlah,Saldo,UserEntry" & stringdateenrtydtedit1 & "," & _
+                                            "UserUpdate" & stringdateupdatedtedit1 & ",NoRecord,Cek,TadaID," & _
                                             "FlagDelete,JumlahLama,KodeAkunLama,FlagPostingOri) values (" & _
                                             "'" & dr!Nomor & "','" & dr!NoUrut & "','" & kodeakun & "','" & dr!KodeCabang & "','" & dr!IdDepartemen & "'," & _
-                                            "'" & dr!Keterangan & "','" & jml & "','" & dr!Saldo & "','" & dr!UserEntry & "'" & stringdateentry2 & "," & _
-                                            "'" & dr!UserUpdate & "'" & stringdateupdate2 & ",'" & dr!NoRecord & "','" & dr!Cek & "','" & dr!TadaID & "'," & _
+                                            "'" & dr!Keterangan & "','" & jml & "','" & dr!Saldo & "','" & dr!UserEntry & "'" & stringdateentrydtedit2 & "," & _
+                                            "'" & dr!UserUpdate & "'" & stringdateupdatedtedit2 & ",'" & dr!NoRecord & "','" & dr!Cek & "','" & dr!TadaID & "'," & _
                                             "'0','" & dr!Jumlah & "','" & dr!KodeAkun & "','0')"
                                         dr.Close()
                                     End If
@@ -615,18 +705,43 @@ Public Class frmJurnaldb
                                 cmd = New SqlCommand(caridata, kon)
                                 dr = cmd.ExecuteReader
                                 dr.Read()
-                                Dim datetimeentry As DateTime = dr!DateTimeEntry
-                                Dim postingdate As DateTime = dr!PostingDate
-                                Dim tglbukti As DateTime = dr!TanggalBukti
+
+                                Dim datetimeentryacjurnal As DateTime
+                                Dim stringdateentryacjurnal1 As String = ""
+                                Dim stringdateentryacjurnal2 As String = ""
+                                If Not IsDBNull(dr!DateTimeEntry) Then
+                                    datetimeentryacjurnal = dr!DateTimeEntry
+                                    stringdateentryacjurnal1 = ",DateTimeEntry"
+                                    stringdateentryacjurnal2 = ",'" & datetimeentryacjurnal.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                                End If
+
+                                Dim postingdate As DateTime
+                                Dim stringpostingdate1 As String = ""
+                                Dim stringpostingdate2 As String = ""
+                                If Not IsDBNull(dr!PostingDate) Then
+                                    postingdate = dr!PostingDate
+                                    stringpostingdate1 = ",PostingDate"
+                                    stringpostingdate2 = ",'" & postingdate.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                                End If
+
+                                Dim tglbukti As DateTime
+                                Dim stringtglbukti1 As String = ""
+                                Dim stringtglbukti2 As String = ""
+                                If Not IsDBNull(dr!TanggalBukti) Then
+                                    tglbukti = dr!TanggalBukti
+                                    stringtglbukti1 = ",TanggalBukti"
+                                    stringtglbukti2 = ",'" & tglbukti.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                                End If
+
                                 Dim queryhistoryedit As String = _
-                                    "insert into tbACJurnalEdit (KodeCompany,NoBukti,TanggalBukti,Tipe,KodeCabang," & _
+                                    "insert into tbACJurnalEdit (KodeCompany,NoBukti" & stringtglbukti1 & ",Tipe,KodeCabang," & _
                                     "IdDepartemen,KodeAkun,NoUrutAkun,Keterangan,Jumlah," & _
-                                    "DebetOrKredit,FlagPosting,PostingDate,IdTransaksi,UserEntry," & _
-                                    "DateTimeEntry,NoRecord,TadaID,KodeAkunLama,JumlahLama,NamaAkunPajak,FlagPostingJurnalOri) values (" & _
-                                    "'" & dr!KodeCompany & "','" & dr!NoBukti & "','" & tglbukti.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!Tipe & "','" & dr!KodeCabang & "'," & _
+                                    "DebetOrKredit,FlagPosting" & stringpostingdate1 & ",IdTransaksi,UserEntry" & _
+                                    "" & stringdateentryacjurnal1 & ",NoRecord,TadaID,KodeAkunLama,JumlahLama,NamaAkunPajak,FlagPostingJurnalOri) values (" & _
+                                    "'" & dr!KodeCompany & "','" & dr!NoBukti & "'" & stringtglbukti2 & ",'" & dr!Tipe & "','" & dr!KodeCabang & "'," & _
                                     "'" & dr!IdDepartemen & "','" & kodeakun & "','" & dr!NoUrutAkun & "','" & dr!Keterangan & "','" & jml & "'," & _
-                                    "'" & dr!DebetOrKredit & "','" & dr!FlagPosting & "','" & postingdate.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!IdTransaksi & "','" & dr!UserEntry & "'," & _
-                                    "'" & datetimeentry.ToString("yyyy-MM-dd hh:mm:ss") & "','" & dr!NoRecord & "','" & dr!TadaID & "','" & dr!KodeAkun & "','" & dr!Jumlah & "','" & data(i).Item("NamaAkunPajak") & "','0')"
+                                    "'" & dr!DebetOrKredit & "','" & dr!FlagPosting & "'" & stringpostingdate2 & ",'" & dr!IdTransaksi & "','" & dr!UserEntry & "'" & _
+                                    "" & stringdateentryacjurnal2 & ",'" & dr!NoRecord & "','" & dr!TadaID & "','" & dr!KodeAkun & "','" & dr!Jumlah & "','" & data(i).Item("NamaAkunPajak") & "','0')"
 
                                 Dim editjurnalori As String = _
                                     "update tbACJurnal set KodeAkunLama='" & dr!KodeAkun & "',JumlahLama='" & dr!Jumlah & "' " & _
