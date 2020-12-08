@@ -99,7 +99,7 @@ Public Class frmJurnaldb
         "left join tbACJurnalEdit d on a.KodeAkunLama = d.KodeAkunLama and a.NoBukti=d.NoBukti and a.JumlahLama = d.JumlahLama and a.NoUrutAkun =d.NoUrutAkun and a.KodeCompany=d.KodeCompany " & _
         "left join tbACKodeAkunEdit e on a.KodeAkun = e.KodeAkunLama or a.KodeAkunLama = e.KodeAkun " & _
         "where substring(a.KodeAkun,1,2)='" & cCompany.Text & "' and month(a.TanggalBukti)='" & Format(dBulan.EditValue, "MM") & "' and year(a.TanggalBukti)='" & Format(dBulan.EditValue, "yyyy") & "'" & _
-        "and (d.FlagDelete = 0 or d.FlagDelete is null) and a.FlagPosting='1' " & _
+        "and (d.FlagDelete = 0 or d.FlagDelete is null) and (a.FlagPosting='1' or d.New is not null) " & _
         "order by KodeAkun,TanggalBukti"
 
         dgJurnal.FirstInit(data, _
