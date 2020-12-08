@@ -99,7 +99,7 @@ Public Class frmJurnaldb
         "left join tbACJurnalEdit d on a.KodeAkunLama = d.KodeAkunLama and a.NoBukti=d.NoBukti and a.JumlahLama = d.JumlahLama and a.NoUrutAkun =d.NoUrutAkun and a.KodeCompany=d.KodeCompany " & _
         "left join tbACKodeAkunEdit e on a.KodeAkun = e.KodeAkunLama or a.KodeAkunLama = e.KodeAkun " & _
         "where substring(a.KodeAkun,1,2)='" & cCompany.Text & "' and month(a.TanggalBukti)='" & Format(dBulan.EditValue, "MM") & "' and year(a.TanggalBukti)='" & Format(dBulan.EditValue, "yyyy") & "'" & _
-        "and (d.FlagDelete = 0 or d.FlagDelete is null) " & _
+        "and (d.FlagDelete = 0 or d.FlagDelete is null) and a.FlagPosting='1' " & _
         "order by KodeAkun,TanggalBukti"
 
         dgJurnal.FirstInit(data, _
@@ -938,7 +938,7 @@ Public Class frmJurnaldb
 
                         Dim editjurnalori As String = _
                             "update tbACJurnal set KodeAkun='" & dbdb.Rows(a).Item("KodeAkun") & "', Jumlah='" & dbdb.Rows(a).Item("Jumlah") & "'," & _
-                            "KodeAkunLama='" & dbdb.Rows(a).Item("KodeAkunLama") & "',JumlahLama='" & dbdb.Rows(a).Item("JumlahLama") & "' " & _
+                            "KodeAkunLama='" & dbdb.Rows(a).Item("KodeAkunLama") & "',JumlahLama='" & dbdb.Rows(a).Item("JumlahLama") & "', FlagPosting='1' " & _
                             "where NoBukti='" & dbdb.Rows(a).Item("NoBukti") & "' and NoUrutAkun='" & dbdb.Rows(a).Item("NoUrutAkun") & "' and KodeAkunLama='" & dbdb.Rows(a).Item("KodeAkunLama") & "' and JumlahLama='" & dbdb.Rows(a).Item("JumlahLama") & "'"
                         cmd = New SqlCommand(editjurnalori, kon)
                         cmd.ExecuteNonQuery()
@@ -948,7 +948,7 @@ Public Class frmJurnaldb
                 End If
 
                 Dim editposting As String = _
-                    "update tbACJurnalEdit set FlagPostingJurnalOri='1' where NoBukti='" & dbdb.Rows(a).Item("NoBukti") & "' and KodeAkun='" & dbdb.Rows(a).Item("KodeAkun") & "' and NoUrutAkun='" & dbdb.Rows(a).Item("NoUrutAkun") & "'"
+                    "update tbACJurnalEdit set FlagPostingJurnalOri='1', FlagPosting='1' where NoBukti='" & dbdb.Rows(a).Item("NoBukti") & "' and KodeAkun='" & dbdb.Rows(a).Item("KodeAkun") & "' and NoUrutAkun='" & dbdb.Rows(a).Item("NoUrutAkun") & "'"
                 cmd = New SqlCommand(editposting, kon)
                 cmd.ExecuteNonQuery()
             Next
