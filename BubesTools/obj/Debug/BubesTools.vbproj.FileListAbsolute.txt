@@ -97,3 +97,4 @@ D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.Resources.resources
 D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.XtraForm1.resources
 D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.vbproj.GenerateResource.Cache
 D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.exe.licenses
+D:\Bubes-Pajak\BubesTools\obj\Debug\BubesTools.frmKodeAkunJurnal.resources

@@ -112,6 +112,12 @@
     <Compile Include="frmJurnalAdd.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmKodeAkunJurnal.Designer.vb">
+      <DependentUpon>frmKodeAkunJurnal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmKodeAkunJurnal.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmLaporanJurnaldb.Designer.vb">
       <DependentUpon>frmLaporanJurnaldb.vb</DependentUpon>
     </Compile>
@@ -198,6 +204,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmJurnalAdd.resx">
       <DependentUpon>frmJurnalAdd.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmKodeAkunJurnal.resx">
+      <DependentUpon>frmKodeAkunJurnal.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLaporanJurnaldb.resx">
       <DependentUpon>frmLaporanJurnaldb.vb</DependentUpon>
