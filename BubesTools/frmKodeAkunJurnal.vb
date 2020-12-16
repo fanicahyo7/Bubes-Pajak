@@ -2,9 +2,25 @@
 Imports System.Data.SqlClient
 
 Public Class frmKodeAkunJurnal
+    Dim pConnstr As String = ""
+    Dim tanggal As Date
+    Dim jenis As String
+    Dim company As String
 
+    Public Sub New()
+        InitializeComponent()
+    End Sub
+
+    Public Sub New(ConnStr As String, tanggal1 As Date, jenis As String, company As String)
+        InitializeComponent()
+        Me.pConnstr = ConnStr
+        Me.tanggal = tanggal1
+        Me.jenis = jenis
+        Me.company = company
+    End Sub
     Private Sub frmKodeAkunJurnal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LayoutControlItem6.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
+        LayoutControlItem3.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
         LayoutControlGroup2.Enabled = False
         dBulan.Properties.DisplayFormat.FormatString = "yyyy MMMM"
         dBulan.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom
@@ -12,24 +28,41 @@ Public Class frmKodeAkunJurnal
         dBulan.Properties.VistaCalendarInitialViewStyle = DevExpress.XtraEditors.VistaCalendarInitialViewStyle.YearView
         dBulan.Properties.VistaCalendarViewStyle = DevExpress.XtraEditors.VistaCalendarViewStyle.YearView
 
-        dBulan.EditValue = Now
+        
+        cJenis.FirstInit(PubConnStr, "SELECT Jenis, ConnStr FROM mstUnitBukbes", {tJenis}, , , , , , , {"ConnStr"})
+        'cJenis.FirstInit(PubConnStr, "SELECT Jenis, ConnStr FROM mstUnitBukbes", , , , , , , , {"ConnStr"})
+        cJenis.Text = jenis
 
-        cJenis.FirstInit(PubConnStr, "SELECT Jenis, ConnStr FROM mstUnitBukbes", , , , , , , , {"ConnStr"})
-    End Sub
-
-    Private Sub cJenis_EditValueChanged(sender As Object, e As EventArgs) Handles cJenis.EditValueChanged
-        If cJenis.Text = "UE" Then
-            tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUE;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
-        Else
-            tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUM;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
-        End If
+        'If cJenis.Text = "UE" Then
+        '    tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUE;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
+        'Else
+        '    tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUM;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
+        'End If
 
         koneksi(tJenis.Text)
         cCompany.FirstInit(tJenis.Text, "Select KodeCompany,Nama from tbGNCompany", {tCompany}, , , , , , {0.5, 1})
+        cCompany.Text = company
+
+        cKodeAkun.FirstInit(tJenis.Text, "select KodeAKun,Keterangan from tbACKodeAkun where KodeCompany='" & cCompany.Text & "' and StatusJurnal='1' order by KodeAkun asc", {tKodeAkun})
+
+        dBulan.EditValue = tanggal
+
+        SetTextReadOnly({cCompany, tCompany, cJenis, dBulan})
+    End Sub
+
+    Private Sub cJenis_EditValueChanged(sender As Object, e As EventArgs) Handles cJenis.EditValueChanged
+        'If cJenis.Text = "UE" Then
+        '    tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUE;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
+        'Else
+        '    tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUM;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
+        'End If
+
+        'koneksi(tJenis.Text)
+        'cCompany.FirstInit(tJenis.Text, "Select KodeCompany,Nama from tbGNCompany", {tCompany}, , , , , , {0.5, 1})
     End Sub
 
     Private Sub cCompany_EditValueChanged(sender As Object, e As EventArgs) Handles cCompany.EditValueChanged
-        cKodeAkun.FirstInit(tJenis.Text, "select KodeAKun,Keterangan from tbACKodeAkun where KodeCompany='" & cCompany.Text & "' and StatusJurnal='1' order by KodeAkun asc", {tKodeAkun})
+        'cKodeAkun.FirstInit(tJenis.Text, "select KodeAKun,Keterangan from tbACKodeAkun where KodeCompany='" & cCompany.Text & "' and StatusJurnal='1' order by KodeAkun asc", {tKodeAkun})
     End Sub
 
     Private Sub btnAmbil_Click(sender As Object, e As EventArgs) Handles btnAmbil.Click
@@ -112,7 +145,7 @@ Public Class frmKodeAkunJurnal
         If cKodeAkunPajak.Text = "" Then
             MsgBox("Kode Akun Pajak Belum Dpilih!", vbCritical + vbOKOnly, "Peringatan")
         Else
-            Dim konfirmasi As String = MsgBox("Apakah Anda Yakin Mengganti Kode Akun " & cKodeAkun.Text & " dengan Kode Akun " & cKodeAkunPajak.Text & "?", vbQuestion + vbYesNo, "Konfirmasi")
+            Dim konfirmasi As String = MsgBox("Apakah Anda Yakin Mengganti Seluruh Kode Akun " & cKodeAkun.Text & " dengan Kode Akun " & cKodeAkunPajak.Text & "?", vbQuestion + vbYesNo, "Konfirmasi")
             If konfirmasi = vbYes Then
                 For a = 0 To dgJurnal.gvMain.RowCount - 1
                     Dim kondisi As String = ""
@@ -261,7 +294,7 @@ Public Class frmKodeAkunJurnal
                             Else
                                 dr.Close()
                                 Dim caridata As String = _
-                                    "select * from tbACVoucherDt where Nomor='" & dgJurnal.GetRowCellValue(i, "NoBukti") & "' and NoUrut='" & dgJurnal.GetRowCellValue(i, "NoUrutAkun") - 1 & "' and KodeAkun='" & tKodeAkun.Text & "'"
+                                    "select * from tbACVoucherDt where Nomor='" & dgJurnal.GetRowCellValue(i, "NoBukti") & "' and NoUrut='" & dgJurnal.GetRowCellValue(i, "NoUrutAkun") - 1 & "' and KodeAkun='" & cKodeAkun.Text & "'"
                                 cmd = New SqlCommand(caridata, kon)
                                 dr = cmd.ExecuteReader()
                                 dr.Read()
@@ -401,5 +434,11 @@ Public Class frmKodeAkunJurnal
                 dgJurnal.gvMain.LoadingPanelVisible = False
             End If
         End If
+    End Sub
+
+    Private Sub cKodeAkun_EditValueChanged(sender As Object, e As EventArgs) Handles cKodeAkun.EditValueChanged
+        isigrid()
+        LayoutControlGroup2.Enabled = True
+        cKodeAkunPajak.FirstInit(tJenis.Text, "select KodeAKun,Keterangan from tbACKodeAkun where KodeCompany='" & cCompany.Text & "' and KodeAkun <> '" & cKodeAkun.Text & "' and StatusJurnal='1' order by KodeAkun asc", {tKodeAkunPajak})
     End Sub
 End Class

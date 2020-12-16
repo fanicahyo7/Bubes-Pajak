@@ -22,6 +22,7 @@ Partial Class frmKodeAkunJurnal
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmKodeAkunJurnal))
         Me.LayoutControl1 = New DevExpress.XtraLayout.LayoutControl()
+        Me.btnGantiKode = New DevExpress.XtraEditors.SimpleButton()
         Me.tKodeAkunPajak = New DevExpress.XtraEditors.TextEdit()
         Me.cKodeAkunPajak = New meCore.cMeButtonBrowser()
         Me.GridView1 = New DevExpress.XtraGrid.Views.Grid.GridView()
@@ -40,25 +41,24 @@ Partial Class frmKodeAkunJurnal
         Me.LayoutControlGroup1 = New DevExpress.XtraLayout.LayoutControlGroup()
         Me.LayoutControlItem1 = New DevExpress.XtraLayout.LayoutControlItem()
         Me.LayoutControlItem2 = New DevExpress.XtraLayout.LayoutControlItem()
-        Me.LayoutControlItem3 = New DevExpress.XtraLayout.LayoutControlItem()
         Me.LayoutControlItem4 = New DevExpress.XtraLayout.LayoutControlItem()
         Me.LayoutControlItem5 = New DevExpress.XtraLayout.LayoutControlItem()
         Me.LayoutControlItem6 = New DevExpress.XtraLayout.LayoutControlItem()
         Me.LayoutControlItem7 = New DevExpress.XtraLayout.LayoutControlItem()
         Me.LayoutControlItem8 = New DevExpress.XtraLayout.LayoutControlItem()
         Me.LayoutControlItem9 = New DevExpress.XtraLayout.LayoutControlItem()
-        Me.LayoutControlItem10 = New DevExpress.XtraLayout.LayoutControlItem()
-        Me.LayoutControlItem11 = New DevExpress.XtraLayout.LayoutControlItem()
         Me.EmptySpaceItem1 = New DevExpress.XtraLayout.EmptySpaceItem()
         Me.LayoutControlGroup2 = New DevExpress.XtraLayout.LayoutControlGroup()
-        Me.btnGantiKode = New DevExpress.XtraEditors.SimpleButton()
+        Me.LayoutControlItem11 = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.LayoutControlItem10 = New DevExpress.XtraLayout.LayoutControlItem()
         Me.LayoutControlItem12 = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.EmptySpaceItem6 = New DevExpress.XtraLayout.EmptySpaceItem()
+        Me.EmptySpaceItem7 = New DevExpress.XtraLayout.EmptySpaceItem()
+        Me.LayoutControlItem3 = New DevExpress.XtraLayout.LayoutControlItem()
         Me.EmptySpaceItem2 = New DevExpress.XtraLayout.EmptySpaceItem()
         Me.EmptySpaceItem3 = New DevExpress.XtraLayout.EmptySpaceItem()
         Me.EmptySpaceItem4 = New DevExpress.XtraLayout.EmptySpaceItem()
         Me.EmptySpaceItem5 = New DevExpress.XtraLayout.EmptySpaceItem()
-        Me.EmptySpaceItem6 = New DevExpress.XtraLayout.EmptySpaceItem()
-        Me.EmptySpaceItem7 = New DevExpress.XtraLayout.EmptySpaceItem()
         CType(Me.LayoutControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.LayoutControl1.SuspendLayout()
         CType(Me.tKodeAkunPajak.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -78,24 +78,24 @@ Partial Class frmKodeAkunJurnal
         CType(Me.LayoutControlGroup1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlItem1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlItem2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.LayoutControlItem3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlItem4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlItem5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlItem6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlItem7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlItem8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlItem9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.LayoutControlItem10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.LayoutControlItem11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.EmptySpaceItem1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlGroup2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutControlItem11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutControlItem10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlItem12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.EmptySpaceItem6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.EmptySpaceItem7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutControlItem3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.EmptySpaceItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.EmptySpaceItem3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.EmptySpaceItem4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.EmptySpaceItem5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.EmptySpaceItem6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.EmptySpaceItem7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'LayoutControl1
@@ -119,6 +119,16 @@ Partial Class frmKodeAkunJurnal
         Me.LayoutControl1.Size = New System.Drawing.Size(955, 556)
         Me.LayoutControl1.TabIndex = 0
         Me.LayoutControl1.Text = "LayoutControl1"
+        '
+        'btnGantiKode
+        '
+        Me.btnGantiKode.Image = CType(resources.GetObject("btnGantiKode.Image"), System.Drawing.Image)
+        Me.btnGantiKode.Location = New System.Drawing.Point(107, 221)
+        Me.btnGantiKode.Name = "btnGantiKode"
+        Me.btnGantiKode.Size = New System.Drawing.Size(137, 38)
+        Me.btnGantiKode.StyleController = Me.LayoutControl1
+        Me.btnGantiKode.TabIndex = 15
+        Me.btnGantiKode.Text = "Ganti Kode Akun"
         '
         'tKodeAkunPajak
         '
@@ -297,18 +307,6 @@ Partial Class frmKodeAkunJurnal
         Me.LayoutControlItem2.TextSize = New System.Drawing.Size(0, 0)
         Me.LayoutControlItem2.TextVisible = False
         '
-        'LayoutControlItem3
-        '
-        Me.LayoutControlItem3.Control = Me.btnAmbil
-        Me.LayoutControlItem3.Location = New System.Drawing.Point(0, 96)
-        Me.LayoutControlItem3.MaxSize = New System.Drawing.Size(228, 59)
-        Me.LayoutControlItem3.MinSize = New System.Drawing.Size(228, 59)
-        Me.LayoutControlItem3.Name = "LayoutControlItem3"
-        Me.LayoutControlItem3.Size = New System.Drawing.Size(228, 59)
-        Me.LayoutControlItem3.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
-        Me.LayoutControlItem3.Text = " "
-        Me.LayoutControlItem3.TextSize = New System.Drawing.Size(80, 13)
-        '
         'LayoutControlItem4
         '
         Me.LayoutControlItem4.Control = Me.cJenis
@@ -381,30 +379,6 @@ Partial Class frmKodeAkunJurnal
         Me.LayoutControlItem9.Text = "Periode"
         Me.LayoutControlItem9.TextSize = New System.Drawing.Size(80, 13)
         '
-        'LayoutControlItem10
-        '
-        Me.LayoutControlItem10.Control = Me.cKodeAkunPajak
-        Me.LayoutControlItem10.Location = New System.Drawing.Point(0, 0)
-        Me.LayoutControlItem10.MaxSize = New System.Drawing.Size(224, 24)
-        Me.LayoutControlItem10.MinSize = New System.Drawing.Size(224, 24)
-        Me.LayoutControlItem10.Name = "LayoutControlItem10"
-        Me.LayoutControlItem10.Size = New System.Drawing.Size(224, 24)
-        Me.LayoutControlItem10.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
-        Me.LayoutControlItem10.Text = "Kode Akun Pajak"
-        Me.LayoutControlItem10.TextSize = New System.Drawing.Size(80, 13)
-        '
-        'LayoutControlItem11
-        '
-        Me.LayoutControlItem11.Control = Me.tKodeAkunPajak
-        Me.LayoutControlItem11.Location = New System.Drawing.Point(224, 0)
-        Me.LayoutControlItem11.MaxSize = New System.Drawing.Size(297, 24)
-        Me.LayoutControlItem11.MinSize = New System.Drawing.Size(297, 24)
-        Me.LayoutControlItem11.Name = "LayoutControlItem11"
-        Me.LayoutControlItem11.Size = New System.Drawing.Size(297, 24)
-        Me.LayoutControlItem11.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
-        Me.LayoutControlItem11.TextSize = New System.Drawing.Size(0, 0)
-        Me.LayoutControlItem11.TextVisible = False
-        '
         'EmptySpaceItem1
         '
         Me.EmptySpaceItem1.AllowHotTrack = False
@@ -421,15 +395,29 @@ Partial Class frmKodeAkunJurnal
         Me.LayoutControlGroup2.Size = New System.Drawing.Size(935, 108)
         Me.LayoutControlGroup2.Text = "Ganti Kode Akun"
         '
-        'btnGantiKode
+        'LayoutControlItem11
         '
-        Me.btnGantiKode.Image = CType(resources.GetObject("btnGantiKode.Image"), System.Drawing.Image)
-        Me.btnGantiKode.Location = New System.Drawing.Point(107, 221)
-        Me.btnGantiKode.Name = "btnGantiKode"
-        Me.btnGantiKode.Size = New System.Drawing.Size(137, 38)
-        Me.btnGantiKode.StyleController = Me.LayoutControl1
-        Me.btnGantiKode.TabIndex = 15
-        Me.btnGantiKode.Text = "Ganti Kode Akun"
+        Me.LayoutControlItem11.Control = Me.tKodeAkunPajak
+        Me.LayoutControlItem11.Location = New System.Drawing.Point(224, 0)
+        Me.LayoutControlItem11.MaxSize = New System.Drawing.Size(297, 24)
+        Me.LayoutControlItem11.MinSize = New System.Drawing.Size(297, 24)
+        Me.LayoutControlItem11.Name = "LayoutControlItem11"
+        Me.LayoutControlItem11.Size = New System.Drawing.Size(297, 24)
+        Me.LayoutControlItem11.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.LayoutControlItem11.TextSize = New System.Drawing.Size(0, 0)
+        Me.LayoutControlItem11.TextVisible = False
+        '
+        'LayoutControlItem10
+        '
+        Me.LayoutControlItem10.Control = Me.cKodeAkunPajak
+        Me.LayoutControlItem10.Location = New System.Drawing.Point(0, 0)
+        Me.LayoutControlItem10.MaxSize = New System.Drawing.Size(224, 24)
+        Me.LayoutControlItem10.MinSize = New System.Drawing.Size(224, 24)
+        Me.LayoutControlItem10.Name = "LayoutControlItem10"
+        Me.LayoutControlItem10.Size = New System.Drawing.Size(224, 24)
+        Me.LayoutControlItem10.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.LayoutControlItem10.Text = "Kode Akun Pajak"
+        Me.LayoutControlItem10.TextSize = New System.Drawing.Size(80, 13)
         '
         'LayoutControlItem12
         '
@@ -442,6 +430,34 @@ Partial Class frmKodeAkunJurnal
         Me.LayoutControlItem12.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.LayoutControlItem12.Text = " "
         Me.LayoutControlItem12.TextSize = New System.Drawing.Size(80, 13)
+        '
+        'EmptySpaceItem6
+        '
+        Me.EmptySpaceItem6.AllowHotTrack = False
+        Me.EmptySpaceItem6.Location = New System.Drawing.Point(521, 0)
+        Me.EmptySpaceItem6.Name = "EmptySpaceItem6"
+        Me.EmptySpaceItem6.Size = New System.Drawing.Size(390, 24)
+        Me.EmptySpaceItem6.TextSize = New System.Drawing.Size(0, 0)
+        '
+        'EmptySpaceItem7
+        '
+        Me.EmptySpaceItem7.AllowHotTrack = False
+        Me.EmptySpaceItem7.Location = New System.Drawing.Point(224, 24)
+        Me.EmptySpaceItem7.Name = "EmptySpaceItem7"
+        Me.EmptySpaceItem7.Size = New System.Drawing.Size(687, 42)
+        Me.EmptySpaceItem7.TextSize = New System.Drawing.Size(0, 0)
+        '
+        'LayoutControlItem3
+        '
+        Me.LayoutControlItem3.Control = Me.btnAmbil
+        Me.LayoutControlItem3.Location = New System.Drawing.Point(0, 96)
+        Me.LayoutControlItem3.MaxSize = New System.Drawing.Size(228, 59)
+        Me.LayoutControlItem3.MinSize = New System.Drawing.Size(228, 59)
+        Me.LayoutControlItem3.Name = "LayoutControlItem3"
+        Me.LayoutControlItem3.Size = New System.Drawing.Size(228, 59)
+        Me.LayoutControlItem3.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.LayoutControlItem3.Text = " "
+        Me.LayoutControlItem3.TextSize = New System.Drawing.Size(80, 13)
         '
         'EmptySpaceItem2
         '
@@ -475,22 +491,6 @@ Partial Class frmKodeAkunJurnal
         Me.EmptySpaceItem5.Size = New System.Drawing.Size(707, 59)
         Me.EmptySpaceItem5.TextSize = New System.Drawing.Size(0, 0)
         '
-        'EmptySpaceItem6
-        '
-        Me.EmptySpaceItem6.AllowHotTrack = False
-        Me.EmptySpaceItem6.Location = New System.Drawing.Point(521, 0)
-        Me.EmptySpaceItem6.Name = "EmptySpaceItem6"
-        Me.EmptySpaceItem6.Size = New System.Drawing.Size(390, 24)
-        Me.EmptySpaceItem6.TextSize = New System.Drawing.Size(0, 0)
-        '
-        'EmptySpaceItem7
-        '
-        Me.EmptySpaceItem7.AllowHotTrack = False
-        Me.EmptySpaceItem7.Location = New System.Drawing.Point(224, 24)
-        Me.EmptySpaceItem7.Name = "EmptySpaceItem7"
-        Me.EmptySpaceItem7.Size = New System.Drawing.Size(687, 42)
-        Me.EmptySpaceItem7.TextSize = New System.Drawing.Size(0, 0)
-        '
         'frmKodeAkunJurnal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -498,8 +498,8 @@ Partial Class frmKodeAkunJurnal
         Me.ClientSize = New System.Drawing.Size(955, 556)
         Me.Controls.Add(Me.LayoutControl1)
         Me.Name = "frmKodeAkunJurnal"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "frmKodeAkunJurnal"
-        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.LayoutControl1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.LayoutControl1.ResumeLayout(False)
         CType(Me.tKodeAkunPajak.Properties, System.ComponentModel.ISupportInitialize).EndInit()
@@ -519,24 +519,24 @@ Partial Class frmKodeAkunJurnal
         CType(Me.LayoutControlGroup1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlItem1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlItem2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.LayoutControlItem3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlItem4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlItem5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlItem6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlItem7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlItem8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlItem9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.LayoutControlItem10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.LayoutControlItem11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.EmptySpaceItem1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlGroup2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutControlItem11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutControlItem10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlItem12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.EmptySpaceItem6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.EmptySpaceItem7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutControlItem3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.EmptySpaceItem2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.EmptySpaceItem3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.EmptySpaceItem4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.EmptySpaceItem5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.EmptySpaceItem6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.EmptySpaceItem7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

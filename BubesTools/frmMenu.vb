@@ -25,10 +25,4 @@ Public Class frmMenu
             xx.ShowDialog(Me)
         End Using
     End Sub
-
-    Private Sub UbahKodeAkunJurnalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UbahKodeAkunJurnalToolStripMenuItem.Click
-        Using xx As New frmKodeAkunJurnal
-            xx.ShowDialog(Me)
-        End Using
-    End Sub
 End Class

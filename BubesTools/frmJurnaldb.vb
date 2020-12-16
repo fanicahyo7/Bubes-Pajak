@@ -22,16 +22,16 @@ Public Class frmJurnaldb
 
         dBulan.EditValue = Now
 
-        'cJenis.FirstInit(PubConnStr, "SELECT Jenis, ConnStr FROM mstUnitBukbes", {tJenis}, , , , , , , {"ConnStr"})
-        cJenis.FirstInit(PubConnStr, "SELECT Jenis, ConnStr FROM mstUnitBukbes", , , , , , , , {"ConnStr"})
+        cJenis.FirstInit(PubConnStr, "SELECT Jenis, ConnStr FROM mstUnitBukbes", {tJenis}, , , , , , , {"ConnStr"})
+        'cJenis.FirstInit(PubConnStr, "SELECT Jenis, ConnStr FROM mstUnitBukbes", , , , , , , , {"ConnStr"})
     End Sub
 
     Private Sub cJenis_EditValueChanged(sender As Object, e As EventArgs) Handles cJenis.EditValueChanged
-        If cJenis.Text = "UE" Then
-            tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUE;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
-        Else
-            tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUM;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
-        End If
+        'If cJenis.Text = "UE" Then
+        '    tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUE;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
+        'Else
+        '    tJenis.Text = "Data Source=10.10.2.23;Initial Catalog=BukbesAccUM;Persist Security Info=True;User ID=sa;Password=gogogo;Connection Timeout=0"
+        'End If
 
         koneksi(tJenis.Text)
         cCompany.FirstInit(tJenis.Text, "Select KodeCompany,Nama from tbGNCompany", {tNama}, , , , , , {0.5, 1})
@@ -989,6 +989,17 @@ Public Class frmJurnaldb
             MsgBox("Data Belum Lengkap!", vbCritical + vbOKOnly, "Peringatan")
         Else
             Using xx As New frmJurnalAdd(tJenis.Text, cCompany.Text, dBulan.EditValue)
+                xx.ShowDialog(Me)
+                btnAmbilData.PerformClick()
+            End Using
+        End If
+    End Sub
+
+    Private Sub btnUbahKode_Click(sender As Object, e As EventArgs) Handles btnUbahKode.Click
+        If cJenis.Text = "" Or cCompany.Text = "" Then
+            MsgBox("Data Belum Lengkap!", vbCritical + vbOKOnly, "Peringatan")
+        Else
+            Using xx As New frmKodeAkunJurnal(tJenis.Text, dBulan.EditValue, cJenis.Text, cCompany.Text)
                 xx.ShowDialog(Me)
                 btnAmbilData.PerformClick()
             End Using

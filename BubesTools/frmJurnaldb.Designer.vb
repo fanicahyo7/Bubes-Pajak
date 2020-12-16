@@ -22,6 +22,7 @@ Partial Class frmJurnaldb
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmJurnaldb))
         Me.LayoutControl1 = New DevExpress.XtraLayout.LayoutControl()
+        Me.btnUbahKode = New DevExpress.XtraEditors.SimpleButton()
         Me.dBulan = New DevExpress.XtraEditors.DateEdit()
         Me.btnTambah = New DevExpress.XtraEditors.SimpleButton()
         Me.tJenis = New DevExpress.XtraEditors.TextEdit()
@@ -56,6 +57,7 @@ Partial Class frmJurnaldb
         Me.LayoutControlItem13 = New DevExpress.XtraLayout.LayoutControlItem()
         Me.LayoutControlItem14 = New DevExpress.XtraLayout.LayoutControlItem()
         Me.LayoutControlItem15 = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.LayoutControlItem8 = New DevExpress.XtraLayout.LayoutControlItem()
         CType(Me.LayoutControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.LayoutControl1.SuspendLayout()
         CType(Me.dBulan.Properties.CalendarTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -85,10 +87,12 @@ Partial Class frmJurnaldb
         CType(Me.LayoutControlItem13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlItem14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutControlItem15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutControlItem8, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'LayoutControl1
         '
+        Me.LayoutControl1.Controls.Add(Me.btnUbahKode)
         Me.LayoutControl1.Controls.Add(Me.dBulan)
         Me.LayoutControl1.Controls.Add(Me.btnTambah)
         Me.LayoutControl1.Controls.Add(Me.tJenis)
@@ -107,9 +111,20 @@ Partial Class frmJurnaldb
         Me.LayoutControl1.Name = "LayoutControl1"
         Me.LayoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = New System.Drawing.Rectangle(553, 144, 450, 400)
         Me.LayoutControl1.Root = Me.LayoutControlGroup1
-        Me.LayoutControl1.Size = New System.Drawing.Size(813, 392)
+        Me.LayoutControl1.Size = New System.Drawing.Size(849, 392)
         Me.LayoutControl1.TabIndex = 0
         Me.LayoutControl1.Text = "LayoutControl1"
+        '
+        'btnUbahKode
+        '
+        Me.btnUbahKode.Image = CType(resources.GetObject("btnUbahKode.Image"), System.Drawing.Image)
+        Me.btnUbahKode.ImageLocation = DevExpress.XtraEditors.ImageLocation.TopCenter
+        Me.btnUbahKode.Location = New System.Drawing.Point(566, 84)
+        Me.btnUbahKode.Name = "btnUbahKode"
+        Me.btnUbahKode.Size = New System.Drawing.Size(133, 55)
+        Me.btnUbahKode.StyleController = Me.LayoutControl1
+        Me.btnUbahKode.TabIndex = 22
+        Me.btnUbahKode.Text = "Ubah Kode Akun"
         '
         'dBulan
         '
@@ -126,7 +141,7 @@ Partial Class frmJurnaldb
         '
         Me.btnTambah.Image = CType(resources.GetObject("btnTambah.Image"), System.Drawing.Image)
         Me.btnTambah.ImageLocation = DevExpress.XtraEditors.ImageLocation.TopCenter
-        Me.btnTambah.Location = New System.Drawing.Point(393, 84)
+        Me.btnTambah.Location = New System.Drawing.Point(292, 84)
         Me.btnTambah.Name = "btnTambah"
         Me.btnTambah.Size = New System.Drawing.Size(128, 55)
         Me.btnTambah.StyleController = Me.LayoutControl1
@@ -137,7 +152,7 @@ Partial Class frmJurnaldb
         '
         Me.tJenis.Location = New System.Drawing.Point(182, 12)
         Me.tJenis.Name = "tJenis"
-        Me.tJenis.Size = New System.Drawing.Size(301, 20)
+        Me.tJenis.Size = New System.Drawing.Size(319, 20)
         Me.tJenis.StyleController = Me.LayoutControl1
         Me.tJenis.TabIndex = 19
         '
@@ -164,7 +179,7 @@ Partial Class frmJurnaldb
         Me.btnPosting.Enabled = False
         Me.btnPosting.Image = CType(resources.GetObject("btnPosting.Image"), System.Drawing.Image)
         Me.btnPosting.ImageLocation = DevExpress.XtraEditors.ImageLocation.TopCenter
-        Me.btnPosting.Location = New System.Drawing.Point(667, 84)
+        Me.btnPosting.Location = New System.Drawing.Point(703, 84)
         Me.btnPosting.Name = "btnPosting"
         Me.btnPosting.Size = New System.Drawing.Size(134, 55)
         Me.btnPosting.StyleController = Me.LayoutControl1
@@ -175,7 +190,7 @@ Partial Class frmJurnaldb
         '
         Me.btnResetData.Image = CType(resources.GetObject("btnResetData.Image"), System.Drawing.Image)
         Me.btnResetData.ImageLocation = DevExpress.XtraEditors.ImageLocation.TopCenter
-        Me.btnResetData.Location = New System.Drawing.Point(525, 84)
+        Me.btnResetData.Location = New System.Drawing.Point(424, 84)
         Me.btnResetData.Name = "btnResetData"
         Me.btnResetData.Size = New System.Drawing.Size(138, 55)
         Me.btnResetData.StyleController = Me.LayoutControl1
@@ -196,7 +211,7 @@ Partial Class frmJurnaldb
         'btnSimpan
         '
         Me.btnSimpan.Image = CType(resources.GetObject("btnSimpan.Image"), System.Drawing.Image)
-        Me.btnSimpan.Location = New System.Drawing.Point(564, 342)
+        Me.btnSimpan.Location = New System.Drawing.Point(600, 342)
         Me.btnSimpan.Name = "btnSimpan"
         Me.btnSimpan.Size = New System.Drawing.Size(133, 38)
         Me.btnSimpan.StyleController = Me.LayoutControl1
@@ -206,7 +221,7 @@ Partial Class frmJurnaldb
         'btnHapus
         '
         Me.btnHapus.Image = CType(resources.GetObject("btnHapus.Image"), System.Drawing.Image)
-        Me.btnHapus.Location = New System.Drawing.Point(701, 342)
+        Me.btnHapus.Location = New System.Drawing.Point(737, 342)
         Me.btnHapus.Name = "btnHapus"
         Me.btnHapus.Size = New System.Drawing.Size(100, 38)
         Me.btnHapus.StyleController = Me.LayoutControl1
@@ -267,17 +282,17 @@ Partial Class frmJurnaldb
         Me.dgJurnal.Query = Nothing
         Me.dgJurnal.QueryTime = Nothing
         Me.dgJurnal.ShowFooter = True
-        Me.dgJurnal.Size = New System.Drawing.Size(789, 195)
+        Me.dgJurnal.Size = New System.Drawing.Size(825, 195)
         Me.dgJurnal.TabIndex = 4
         '
         'LayoutControlGroup1
         '
         Me.LayoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.[True]
         Me.LayoutControlGroup1.GroupBordersVisible = False
-        Me.LayoutControlGroup1.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.LayoutControlItem1, Me.LayoutControlItem6, Me.EmptySpaceItem3, Me.EmptySpaceItem4, Me.LayoutControlItem7, Me.LayoutControlItem4, Me.LayoutControlItem5, Me.EmptySpaceItem5, Me.LayoutControlItem11, Me.LayoutControlItem12, Me.EmptySpaceItem1, Me.LayoutControlItem3, Me.LayoutControlItem2, Me.EmptySpaceItem2, Me.LayoutControlItem10, Me.LayoutControlItem13, Me.LayoutControlItem14, Me.LayoutControlItem15})
+        Me.LayoutControlGroup1.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.LayoutControlItem1, Me.LayoutControlItem6, Me.EmptySpaceItem3, Me.EmptySpaceItem4, Me.LayoutControlItem7, Me.LayoutControlItem4, Me.LayoutControlItem5, Me.EmptySpaceItem5, Me.LayoutControlItem11, Me.LayoutControlItem12, Me.EmptySpaceItem1, Me.LayoutControlItem3, Me.LayoutControlItem2, Me.EmptySpaceItem2, Me.LayoutControlItem10, Me.LayoutControlItem13, Me.LayoutControlItem14, Me.LayoutControlItem15, Me.LayoutControlItem8})
         Me.LayoutControlGroup1.Location = New System.Drawing.Point(0, 0)
         Me.LayoutControlGroup1.Name = "Root"
-        Me.LayoutControlGroup1.Size = New System.Drawing.Size(813, 392)
+        Me.LayoutControlGroup1.Size = New System.Drawing.Size(849, 392)
         Me.LayoutControlGroup1.TextVisible = False
         '
         'LayoutControlItem1
@@ -285,7 +300,7 @@ Partial Class frmJurnaldb
         Me.LayoutControlItem1.Control = Me.dgJurnal
         Me.LayoutControlItem1.Location = New System.Drawing.Point(0, 131)
         Me.LayoutControlItem1.Name = "LayoutControlItem1"
-        Me.LayoutControlItem1.Size = New System.Drawing.Size(793, 199)
+        Me.LayoutControlItem1.Size = New System.Drawing.Size(829, 199)
         Me.LayoutControlItem1.TextSize = New System.Drawing.Size(0, 0)
         Me.LayoutControlItem1.TextVisible = False
         '
@@ -308,7 +323,7 @@ Partial Class frmJurnaldb
         Me.EmptySpaceItem3.MaxSize = New System.Drawing.Size(318, 24)
         Me.EmptySpaceItem3.MinSize = New System.Drawing.Size(318, 24)
         Me.EmptySpaceItem3.Name = "EmptySpaceItem3"
-        Me.EmptySpaceItem3.Size = New System.Drawing.Size(318, 48)
+        Me.EmptySpaceItem3.Size = New System.Drawing.Size(354, 48)
         Me.EmptySpaceItem3.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.EmptySpaceItem3.TextSize = New System.Drawing.Size(0, 0)
         '
@@ -318,14 +333,14 @@ Partial Class frmJurnaldb
         Me.EmptySpaceItem4.Location = New System.Drawing.Point(170, 72)
         Me.EmptySpaceItem4.MinSize = New System.Drawing.Size(104, 24)
         Me.EmptySpaceItem4.Name = "EmptySpaceItem4"
-        Me.EmptySpaceItem4.Size = New System.Drawing.Size(211, 59)
+        Me.EmptySpaceItem4.Size = New System.Drawing.Size(110, 59)
         Me.EmptySpaceItem4.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.EmptySpaceItem4.TextSize = New System.Drawing.Size(0, 0)
         '
         'LayoutControlItem7
         '
         Me.LayoutControlItem7.Control = Me.btnHapus
-        Me.LayoutControlItem7.Location = New System.Drawing.Point(689, 330)
+        Me.LayoutControlItem7.Location = New System.Drawing.Point(725, 330)
         Me.LayoutControlItem7.MaxSize = New System.Drawing.Size(104, 42)
         Me.LayoutControlItem7.MinSize = New System.Drawing.Size(104, 42)
         Me.LayoutControlItem7.Name = "LayoutControlItem7"
@@ -337,7 +352,7 @@ Partial Class frmJurnaldb
         'LayoutControlItem4
         '
         Me.LayoutControlItem4.Control = Me.btnSimpan
-        Me.LayoutControlItem4.Location = New System.Drawing.Point(552, 330)
+        Me.LayoutControlItem4.Location = New System.Drawing.Point(588, 330)
         Me.LayoutControlItem4.MaxSize = New System.Drawing.Size(137, 42)
         Me.LayoutControlItem4.MinSize = New System.Drawing.Size(137, 42)
         Me.LayoutControlItem4.Name = "LayoutControlItem4"
@@ -363,13 +378,13 @@ Partial Class frmJurnaldb
         Me.EmptySpaceItem5.AllowHotTrack = False
         Me.EmptySpaceItem5.Location = New System.Drawing.Point(146, 330)
         Me.EmptySpaceItem5.Name = "EmptySpaceItem5"
-        Me.EmptySpaceItem5.Size = New System.Drawing.Size(406, 42)
+        Me.EmptySpaceItem5.Size = New System.Drawing.Size(442, 42)
         Me.EmptySpaceItem5.TextSize = New System.Drawing.Size(0, 0)
         '
         'LayoutControlItem11
         '
         Me.LayoutControlItem11.Control = Me.btnResetData
-        Me.LayoutControlItem11.Location = New System.Drawing.Point(513, 72)
+        Me.LayoutControlItem11.Location = New System.Drawing.Point(412, 72)
         Me.LayoutControlItem11.MaxSize = New System.Drawing.Size(142, 59)
         Me.LayoutControlItem11.MinSize = New System.Drawing.Size(142, 59)
         Me.LayoutControlItem11.Name = "LayoutControlItem11"
@@ -381,7 +396,7 @@ Partial Class frmJurnaldb
         'LayoutControlItem12
         '
         Me.LayoutControlItem12.Control = Me.btnPosting
-        Me.LayoutControlItem12.Location = New System.Drawing.Point(655, 72)
+        Me.LayoutControlItem12.Location = New System.Drawing.Point(691, 72)
         Me.LayoutControlItem12.MaxSize = New System.Drawing.Size(138, 59)
         Me.LayoutControlItem12.MinSize = New System.Drawing.Size(138, 59)
         Me.LayoutControlItem12.Name = "LayoutControlItem12"
@@ -393,10 +408,10 @@ Partial Class frmJurnaldb
         'EmptySpaceItem1
         '
         Me.EmptySpaceItem1.AllowHotTrack = False
-        Me.EmptySpaceItem1.Location = New System.Drawing.Point(475, 0)
+        Me.EmptySpaceItem1.Location = New System.Drawing.Point(493, 0)
         Me.EmptySpaceItem1.MinSize = New System.Drawing.Size(104, 24)
         Me.EmptySpaceItem1.Name = "EmptySpaceItem1"
-        Me.EmptySpaceItem1.Size = New System.Drawing.Size(318, 24)
+        Me.EmptySpaceItem1.Size = New System.Drawing.Size(336, 24)
         Me.EmptySpaceItem1.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.EmptySpaceItem1.TextSize = New System.Drawing.Size(0, 0)
         '
@@ -450,7 +465,7 @@ Partial Class frmJurnaldb
         Me.LayoutControlItem13.Control = Me.tJenis
         Me.LayoutControlItem13.Location = New System.Drawing.Point(170, 0)
         Me.LayoutControlItem13.Name = "LayoutControlItem13"
-        Me.LayoutControlItem13.Size = New System.Drawing.Size(305, 24)
+        Me.LayoutControlItem13.Size = New System.Drawing.Size(323, 24)
         Me.LayoutControlItem13.TextSize = New System.Drawing.Size(0, 0)
         Me.LayoutControlItem13.TextVisible = False
         Me.LayoutControlItem13.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
@@ -458,7 +473,7 @@ Partial Class frmJurnaldb
         'LayoutControlItem14
         '
         Me.LayoutControlItem14.Control = Me.btnTambah
-        Me.LayoutControlItem14.Location = New System.Drawing.Point(381, 72)
+        Me.LayoutControlItem14.Location = New System.Drawing.Point(280, 72)
         Me.LayoutControlItem14.MaxSize = New System.Drawing.Size(132, 59)
         Me.LayoutControlItem14.MinSize = New System.Drawing.Size(132, 59)
         Me.LayoutControlItem14.Name = "LayoutControlItem14"
@@ -479,11 +494,23 @@ Partial Class frmJurnaldb
         Me.LayoutControlItem15.Text = "Periode"
         Me.LayoutControlItem15.TextSize = New System.Drawing.Size(45, 13)
         '
+        'LayoutControlItem8
+        '
+        Me.LayoutControlItem8.Control = Me.btnUbahKode
+        Me.LayoutControlItem8.Location = New System.Drawing.Point(554, 72)
+        Me.LayoutControlItem8.MaxSize = New System.Drawing.Size(137, 59)
+        Me.LayoutControlItem8.MinSize = New System.Drawing.Size(137, 59)
+        Me.LayoutControlItem8.Name = "LayoutControlItem8"
+        Me.LayoutControlItem8.Size = New System.Drawing.Size(137, 59)
+        Me.LayoutControlItem8.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.LayoutControlItem8.TextSize = New System.Drawing.Size(0, 0)
+        Me.LayoutControlItem8.TextVisible = False
+        '
         'frmJurnaldb
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(813, 392)
+        Me.ClientSize = New System.Drawing.Size(849, 392)
         Me.Controls.Add(Me.LayoutControl1)
         Me.Name = "frmJurnaldb"
         Me.Text = "Jurnal DB"
@@ -516,6 +543,7 @@ Partial Class frmJurnaldb
         CType(Me.LayoutControlItem13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlItem14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutControlItem15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutControlItem8, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -554,4 +582,6 @@ Partial Class frmJurnaldb
     Friend WithEvents LayoutControlItem14 As DevExpress.XtraLayout.LayoutControlItem
     Friend WithEvents dBulan As DevExpress.XtraEditors.DateEdit
     Friend WithEvents LayoutControlItem15 As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents btnUbahKode As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents LayoutControlItem8 As DevExpress.XtraLayout.LayoutControlItem
 End Class
