@@ -25,4 +25,10 @@ Public Class frmMenu
             xx.ShowDialog(Me)
         End Using
     End Sub
+
+    Private Sub AlsKodeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AlsKodeToolStripMenuItem.Click
+        Using xx As New frmKodeAls
+            xx.ShowDialog(Me)
+        End Using
+    End Sub
 End Class

@@ -24,6 +24,7 @@ Partial Class frmMenu
         Me.EditJurnalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.LaporanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.KodeAkunToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AlsKodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -38,7 +39,7 @@ Partial Class frmMenu
         '
         'JurnalToolStripMenuItem
         '
-        Me.JurnalToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditJurnalToolStripMenuItem, Me.LaporanToolStripMenuItem, Me.KodeAkunToolStripMenuItem})
+        Me.JurnalToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditJurnalToolStripMenuItem, Me.LaporanToolStripMenuItem, Me.KodeAkunToolStripMenuItem, Me.AlsKodeToolStripMenuItem})
         Me.JurnalToolStripMenuItem.Name = "JurnalToolStripMenuItem"
         Me.JurnalToolStripMenuItem.Size = New System.Drawing.Size(50, 20)
         Me.JurnalToolStripMenuItem.Text = "Jurnal"
@@ -61,6 +62,12 @@ Partial Class frmMenu
         Me.KodeAkunToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.KodeAkunToolStripMenuItem.Text = "Kode Akun"
         '
+        'AlsKodeToolStripMenuItem
+        '
+        Me.AlsKodeToolStripMenuItem.Name = "AlsKodeToolStripMenuItem"
+        Me.AlsKodeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AlsKodeToolStripMenuItem.Text = "Als Kode"
+        '
         'frmMenu
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -81,4 +88,5 @@ Partial Class frmMenu
     Friend WithEvents EditJurnalToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents LaporanToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents KodeAkunToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AlsKodeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class
