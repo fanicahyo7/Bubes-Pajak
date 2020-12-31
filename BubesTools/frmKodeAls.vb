@@ -195,7 +195,7 @@ Public Class frmKodeAls
                         cmd = New SqlCommand(carikode, kon)
                         rd = cmd.ExecuteReader
                         rd.Read()
-                        If rd.HasRows Then
+                        If rd.HasRows = True Then
                             query += "insert into tbACKodeAkunEdit (" & _
                                 "KodeAkun,Keterangan,KodeAkunInduk,LevelAkun,DebetOrKredit," & _
                                 "StatusJurnal,KodeCompany,IdKategori,KodeAkunLama," & _
@@ -207,16 +207,60 @@ Public Class frmKodeAls
                                 "'" & rd!KodeAkunInduk & "','" & rd!KodeCompany & "','0'); "
                         End If
                         rd.Close()
+
+                        'voucher dt BELUM
+                        Dim carivoucherdted As String = "select * from tbACVoucherDtEdit where KodeAkun='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkunPajak") & "' and KodeAkunLama='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkun") & "'"
+                        cmd = New SqlCommand(carivoucherdted, kon)
+                        rd = cmd.ExecuteReader
+                        rd.Read()
+                        If rd.HasRows = False Then
+                            rd.Close()
+                            Dim caridata As String = _
+                                "select * from tbACVoucherDt where KodeAkun='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkun") & "' and KodeAkunLama='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkunPajak") & "'; "
+                            cmd = New SqlCommand(caridata, kon)
+                            rd = cmd.ExecuteReader()
+                            rd.Read()
+                            If rd.HasRows Then
+                                Dim datetimeentrydtedit As DateTime
+                                Dim stringdateenrtydtedit1 As String = ""
+                                Dim stringdateentrydtedit2 As String = ""
+                                If Not IsDBNull(rd!DateTimeEntry) Then
+                                    datetimeentrydtedit = rd!DateTimeEntry
+                                    stringdateenrtydtedit1 = ",DateTimeEntry"
+                                    stringdateentrydtedit2 = ",'" & datetimeentrydtedit.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                                End If
+
+                                Dim datetimeupdatedtedit As DateTime
+                                Dim stringdateupdatedtedit1 As String = ""
+                                Dim stringdateupdatedtedit2 As String = ""
+                                If Not IsDBNull(rd!DateTimeUpdate) Then
+                                    datetimeupdatedtedit = rd!DateTimeUpdate
+                                    stringdateupdatedtedit1 = ",DateTimeUpdate"
+                                    stringdateupdatedtedit2 = ",'" & datetimeupdatedtedit.ToString("yyyy-MM-dd hh:mm:ss") & "'"
+                                End If
+
+                                'insert
+                                query += _
+                                    "insert into tbACVoucherDtEdit (Nomor,NoUrut,KodeAkun,KodeCabang,IdDepartemen," & _
+                                    "Keterangan,Jumlah,Saldo,UserEntry" & stringdateenrtydtedit1 & "," & _
+                                    "UserUpdate" & stringdateupdatedtedit1 & ",NoRecord,Cek,TadaID," & _
+                                    "FlagDelete,JumlahLama,KodeAkunLama,FlagPostingOri) values (" & _
+                                    "'" & rd!Nomor & "','" & rd!NoUrut & "','" & rd!KodeAkun & "','" & rd!KodeCabang & "','" & rd!IdDepartemen & "'," & _
+                                    "'" & rd!Keterangan & "','" & rd!Jumlah & "','" & rd!Saldo & "','" & rd!UserEntry & "'" & stringdateentrydtedit2 & "," & _
+                                    "'" & rd!UserUpdate & "'" & stringdateupdatedtedit2 & ",'" & rd!NoRecord & "','" & rd!Cek & "','" & rd!TadaID & "'," & _
+                                    "'0','" & rd!JumlahLama & "','" & rd!KodeAkunLama & "','0'); "
+                            End If
+                            rd.Close()
+                        Else
+                            rd.Close()
+                            query += "update tbACVoucherDtEdit set KodeAkun='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkunPajak") & "', KodeAkunLama='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkun") & "' where KodeAkun='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkunPajak") & "'; "
+                        End If
                     Else
                         query += "update tbACKodeAkunEdit set KodeAkun='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkunPajak") & "', Keterangan='" & dgGantiKode.GetRowCellValue(b, "KeteranganPajak") & "' where KodeAkunLama='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkun") & "' and KodeAkun='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkunPajak") & "'; "
-
+                        query += "update tbACKodeAkun set KodeAkun='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkunPajak") & "',Keterangan='" & dgGantiKode.GetRowCellValue(b, "KeteranganPajak") & "' where KodeAkun='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkun") & "'; "
                     End If
-                    query += "update tbACKodeAkun set Keterangan='" & dgGantiKode.GetRowCellValue(b, "KeteranganPajak") & "' where KodeAkun='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkunPajak") & "'; "
 
-                    'voucher dt BELUM
-                    query += "update tbACVoucherDtEdit set KodeAkun='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgUbahNama.GetRowCellValue(b, "KodeAkunPajak") & "', KodeAkunLama='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgUbahNama.GetRowCellValue(b, "KodeAkun") & "' where KodeAkun='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgUbahNama.GetRowCellValue(b, "KodeAkunPajak") & "'; "
-
-                    query += "update tbACVoucherDt set Keterangan='" & dgUbahNama.GetRowCellValue(b, "KeteranganPajak") & "' where KodeAkun='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgUbahNama.GetRowCellValue(b, "KodeAkunPajak") & "'; "
+                    query += "update tbACVoucherDt set Keterangan='" & dgGantiKode.GetRowCellValue(b, "KeteranganPajak") & "' where KodeAkun='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkunPajak") & "'; "
 
                     'jurnal jurnaledit
                     query += "update tbACJurnalEdit set NamaAkunPajak='" & dgGantiKode.GetRowCellValue(b, "KeteranganPajak") & "' where KodeAkun='" & dbcompany.Rows(a).Item("KodeCompany") & "." & dgGantiKode.GetRowCellValue(b, "KodeAkunPajak") & "'; "
