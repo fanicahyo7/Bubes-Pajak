@@ -211,7 +211,7 @@ Partial Class frmKodeAls
         '
         Me.tabUbahNama.Controls.Add(Me.LayoutControl3)
         Me.tabUbahNama.Name = "tabUbahNama"
-        Me.tabUbahNama.Size = New System.Drawing.Size(706, 337)
+        Me.tabUbahNama.Size = New System.Drawing.Size(706, 321)
         Me.tabUbahNama.Text = "Ubah Nama Kode Akun"
         '
         'LayoutControl3
@@ -222,13 +222,13 @@ Partial Class frmKodeAls
         Me.LayoutControl3.Location = New System.Drawing.Point(0, 0)
         Me.LayoutControl3.Name = "LayoutControl3"
         Me.LayoutControl3.Root = Me.LayoutControlGroup4
-        Me.LayoutControl3.Size = New System.Drawing.Size(706, 337)
+        Me.LayoutControl3.Size = New System.Drawing.Size(706, 321)
         Me.LayoutControl3.TabIndex = 0
         Me.LayoutControl3.Text = "LayoutControl3"
         '
         'SimpleButton3
         '
-        Me.SimpleButton3.Location = New System.Drawing.Point(12, 303)
+        Me.SimpleButton3.Location = New System.Drawing.Point(12, 287)
         Me.SimpleButton3.Name = "SimpleButton3"
         Me.SimpleButton3.Size = New System.Drawing.Size(682, 22)
         Me.SimpleButton3.StyleController = Me.LayoutControl3
@@ -252,7 +252,7 @@ Partial Class frmKodeAls
         Me.dgUbahNama.Query = Nothing
         Me.dgUbahNama.QueryTime = Nothing
         Me.dgUbahNama.ShowFooter = True
-        Me.dgUbahNama.Size = New System.Drawing.Size(682, 287)
+        Me.dgUbahNama.Size = New System.Drawing.Size(682, 271)
         Me.dgUbahNama.TabIndex = 4
         '
         'LayoutControlGroup4
@@ -262,7 +262,7 @@ Partial Class frmKodeAls
         Me.LayoutControlGroup4.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.LayoutControlItem8, Me.LayoutControlItem10})
         Me.LayoutControlGroup4.Location = New System.Drawing.Point(0, 0)
         Me.LayoutControlGroup4.Name = "LayoutControlGroup4"
-        Me.LayoutControlGroup4.Size = New System.Drawing.Size(706, 337)
+        Me.LayoutControlGroup4.Size = New System.Drawing.Size(706, 321)
         Me.LayoutControlGroup4.TextVisible = False
         '
         'LayoutControlItem8
@@ -270,14 +270,14 @@ Partial Class frmKodeAls
         Me.LayoutControlItem8.Control = Me.dgUbahNama
         Me.LayoutControlItem8.Location = New System.Drawing.Point(0, 0)
         Me.LayoutControlItem8.Name = "LayoutControlItem8"
-        Me.LayoutControlItem8.Size = New System.Drawing.Size(686, 291)
+        Me.LayoutControlItem8.Size = New System.Drawing.Size(686, 275)
         Me.LayoutControlItem8.TextSize = New System.Drawing.Size(0, 0)
         Me.LayoutControlItem8.TextVisible = False
         '
         'LayoutControlItem10
         '
         Me.LayoutControlItem10.Control = Me.SimpleButton3
-        Me.LayoutControlItem10.Location = New System.Drawing.Point(0, 291)
+        Me.LayoutControlItem10.Location = New System.Drawing.Point(0, 275)
         Me.LayoutControlItem10.Name = "LayoutControlItem10"
         Me.LayoutControlItem10.Size = New System.Drawing.Size(686, 26)
         Me.LayoutControlItem10.TextSize = New System.Drawing.Size(0, 0)
@@ -287,7 +287,7 @@ Partial Class frmKodeAls
         '
         Me.tabGantiKode.Controls.Add(Me.LayoutControl4)
         Me.tabGantiKode.Name = "tabGantiKode"
-        Me.tabGantiKode.Size = New System.Drawing.Size(706, 337)
+        Me.tabGantiKode.Size = New System.Drawing.Size(706, 321)
         Me.tabGantiKode.Text = "Ganti Kode Akun"
         '
         'LayoutControl4
@@ -298,13 +298,13 @@ Partial Class frmKodeAls
         Me.LayoutControl4.Location = New System.Drawing.Point(0, 0)
         Me.LayoutControl4.Name = "LayoutControl4"
         Me.LayoutControl4.Root = Me.LayoutControlGroup5
-        Me.LayoutControl4.Size = New System.Drawing.Size(706, 337)
+        Me.LayoutControl4.Size = New System.Drawing.Size(706, 321)
         Me.LayoutControl4.TabIndex = 0
         Me.LayoutControl4.Text = "LayoutControl4"
         '
         'SimpleButton4
         '
-        Me.SimpleButton4.Location = New System.Drawing.Point(12, 303)
+        Me.SimpleButton4.Location = New System.Drawing.Point(12, 287)
         Me.SimpleButton4.Name = "SimpleButton4"
         Me.SimpleButton4.Size = New System.Drawing.Size(682, 22)
         Me.SimpleButton4.StyleController = Me.LayoutControl4
@@ -328,7 +328,7 @@ Partial Class frmKodeAls
         Me.dgGantiKode.Query = Nothing
         Me.dgGantiKode.QueryTime = Nothing
         Me.dgGantiKode.ShowFooter = True
-        Me.dgGantiKode.Size = New System.Drawing.Size(682, 287)
+        Me.dgGantiKode.Size = New System.Drawing.Size(682, 271)
         Me.dgGantiKode.TabIndex = 4
         '
         'LayoutControlGroup5
@@ -338,7 +338,7 @@ Partial Class frmKodeAls
         Me.LayoutControlGroup5.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.LayoutControlItem9, Me.LayoutControlItem11})
         Me.LayoutControlGroup5.Location = New System.Drawing.Point(0, 0)
         Me.LayoutControlGroup5.Name = "LayoutControlGroup5"
-        Me.LayoutControlGroup5.Size = New System.Drawing.Size(706, 337)
+        Me.LayoutControlGroup5.Size = New System.Drawing.Size(706, 321)
         Me.LayoutControlGroup5.TextVisible = False
         '
         'LayoutControlItem9
@@ -346,14 +346,14 @@ Partial Class frmKodeAls
         Me.LayoutControlItem9.Control = Me.dgGantiKode
         Me.LayoutControlItem9.Location = New System.Drawing.Point(0, 0)
         Me.LayoutControlItem9.Name = "LayoutControlItem9"
-        Me.LayoutControlItem9.Size = New System.Drawing.Size(686, 291)
+        Me.LayoutControlItem9.Size = New System.Drawing.Size(686, 275)
         Me.LayoutControlItem9.TextSize = New System.Drawing.Size(0, 0)
         Me.LayoutControlItem9.TextVisible = False
         '
         'LayoutControlItem11
         '
         Me.LayoutControlItem11.Control = Me.SimpleButton4
-        Me.LayoutControlItem11.Location = New System.Drawing.Point(0, 291)
+        Me.LayoutControlItem11.Location = New System.Drawing.Point(0, 275)
         Me.LayoutControlItem11.Name = "LayoutControlItem11"
         Me.LayoutControlItem11.Size = New System.Drawing.Size(686, 26)
         Me.LayoutControlItem11.TextSize = New System.Drawing.Size(0, 0)
